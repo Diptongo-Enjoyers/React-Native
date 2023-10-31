@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 const login = () => {
   return (
     <LinearGradient
-      colors={['#A8E3A0', '#FFA687']} // colors={['#FFF9E0', '#FFEBEB']}
+      colors={['#FFF9E0', '#FFEBEB']}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={styles.container}

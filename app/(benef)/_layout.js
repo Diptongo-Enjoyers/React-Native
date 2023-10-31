@@ -8,7 +8,8 @@ export default function _layout() {
         <Tabs.Screen name="noticiasBenef" options={{
             headerTitle: "Noticias",
             headerTitleAlign: "center",
-            tabBarLabel: "Noticias"
+            tabBarLabel: "Noticias",
+            //headerShown: false
         }}/>
         <Tabs.Screen name="perfilBenef" options={{
             headerTitle: "Perfil",

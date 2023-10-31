@@ -1,11 +1,12 @@
+import { Link } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function Page() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
-        <Text style={styles.title}>a World</Text>
-        <Text style={styles.subtitle}>This is the first page of your app.</Text>
+        <Text style={styles.title}>Bienvenido</Text>
+        <Link style={styles.subtitle} href="login">Click aqui para comenzar</Link>
       </View>
     </View>
   );

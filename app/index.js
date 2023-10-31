@@ -1,12 +1,12 @@
 import { Link } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 
 export default function Page() {
   return (
     <View style={styles.container}>
       <View style={styles.main}>
         <Text style={styles.title}>Bienvenido</Text>
-        <Link style={styles.subtitle} href="login">Click aqui para comenzar</Link>
+        <Link style={styles.subtitle} href="/auth">Click aqui para comenzar</Link>
       </View>
     </View>
   );

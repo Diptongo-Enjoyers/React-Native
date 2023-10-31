@@ -11,7 +11,7 @@ const login = () => {
       end={{ x: 1, y: 1 }}
       style={styles.container}
     >
-      <Image source={require('../assets/logo.png')} style={styles.logo} />
+      <Image source={require('../../assets/logo.png')} style={styles.logo} />
       <Text style={styles.titulo}>Login</Text>
       <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
       <TextInput style={styles.input} placeholder="ejemplo@gmail.com" />
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF9E0",
     alignItems: "center",
-    justifyContent:'center',
+    justifyContent: 'center',
   },
   titulo: {
     fontSize: 80,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 175,
     height: 200,
-  },  
+  },
 })
 
 export default login

@@ -22,8 +22,6 @@ const styles = StyleSheet.create({
         titulo: {},
         descripcion: {},
     },
-
-    
 });
 
 export default SingleHouseScreen;

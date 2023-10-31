@@ -5,7 +5,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const login = () => {
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={['#FFF9E0', '#FFEBEB']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.titulo}>Login</Text>
       <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
@@ -15,7 +20,7 @@ const login = () => {
 
       <TouchableOpacity style={styles.buttonContainer}>
         <LinearGradient
-          colors={['#DDB677', '#FF3CBD']}
+          colors={['#FF7F39', '#E74428']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.button} >
@@ -26,9 +31,10 @@ const login = () => {
       <Text style={styles.contraOlvido}>Registrate aqui</Text>
 
       <StatusBar style="auto" />
-    </View>
+    </LinearGradient>
   )
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -44,7 +50,7 @@ const styles = StyleSheet.create({
   },
   subTitulo: {
     fontSize: 20,
-    color: "gray",
+    color: "fff",
   },
   input: {
     padding: 10,
@@ -57,7 +63,7 @@ const styles = StyleSheet.create({
   },
   contraOlvido: {
     fontSize: 14,
-    color: "gray",
+    color: "fff",
     marginTop: 20,
   },
   button: {

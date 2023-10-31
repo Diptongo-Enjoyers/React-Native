@@ -9,9 +9,8 @@ const login = () => {
       <Text style={styles.titulo}>Login</Text>
       <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
       <TextInput style={styles.input} placeholder="ejemplo@gmail.com" />
-      <TextInput style={styles.input} placeholder="contraseña" />
+      <TextInput secureTextEntry={true} style={styles.input} placeholder="contraseña" />
       <Text style={styles.contraOlvido}>¿Olvidaste tu contraseña?</Text>
-      <StatusBar style="auto" />
 
       <TouchableOpacity style={styles.buttonContainer}>
         <LinearGradient
@@ -22,6 +21,10 @@ const login = () => {
           <Text style={styles.buttonText}>Iniciar sesión</Text>
         </LinearGradient>
       </TouchableOpacity>
+
+      <Text style={styles.contraOlvido}>Registrate aqui</Text>
+
+      <StatusBar style="auto" />
     </View>
   )
 }

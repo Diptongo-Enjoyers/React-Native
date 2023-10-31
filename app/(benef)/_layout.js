@@ -9,12 +9,15 @@ export default function _layout() {
             headerTitle: "Noticias",
             headerTitleAlign: "center",
             tabBarLabel: "Noticias",
-            //headerShown: false
         }}/>
         <Tabs.Screen name="perfilBenef" options={{
             headerTitle: "Perfil",
             headerTitleAlign: "center",
             tabBarLabel: "Perfil"
+        }}/>
+        <Tabs.Screen name="noticiasDetalle" options={{
+            headerShown: false,
+            href: null,
         }}/>
     </Tabs>
   )

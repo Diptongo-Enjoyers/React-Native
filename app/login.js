@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { LinearGradient } from 'expo-linear-gradient';
@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 const login = () => {
   return (
     <View style={styles.container}>
+      <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.titulo}>Login</Text>
       <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
       <TextInput style={styles.input} placeholder="ejemplo@gmail.com" />
@@ -32,7 +33,7 @@ const login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "#FFF9E0",
     alignItems: "center",
     justifyContent:'center',
   },
@@ -76,7 +77,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 200,
     marginTop: 60,
-  }
+  },
+  logo: {
+    width: 150,
+    height: 200,
+  },  
 })
 
 export default login

@@ -16,11 +16,21 @@ const SingleHouseScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        container: {},
-        imagen: {},
-        titulo: {},
-        descripcion: {},
+    container: {},
+    imagen: {
+        width: '100%',
+        height: 400,
+        borderRadius: 8,
+        marginBottom: 40,
+        marginTop: 20,
+    },
+    titulo: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginBottom: 8,
+    },
+    descripcion: { 
+        fontSize: 16,
     },
 });
 

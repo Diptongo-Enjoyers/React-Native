@@ -16,7 +16,10 @@ const SingleHouseScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        flex: 1,
+        padding: 20,
+    },
     imagen: {
         width: '100%',
         height: 400,

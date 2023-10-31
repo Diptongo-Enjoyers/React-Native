@@ -1,6 +1,7 @@
-import { View, Text, StyleSheet, TextInput } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
+import { LinearGradient } from 'expo-linear-gradient';
 
 const login = () => {
   return (
@@ -9,7 +10,18 @@ const login = () => {
       <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
       <TextInput style={styles.input} placeholder="ejemplo@gmail.com" />
       <TextInput style={styles.input} placeholder="contraseña" />
+      <Text style={styles.contraOlvido}>¿Olvidaste tu contraseña?</Text>
       <StatusBar style="auto" />
+
+      <TouchableOpacity style={styles.buttonContainer}>
+        <LinearGradient
+          colors={['#DDB677', '#FF3CBD']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.button} >
+          <Text style={styles.buttonText}>Iniciar sesión</Text>
+        </LinearGradient>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -39,6 +51,29 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: '#fff',
   },
+  contraOlvido: {
+    fontSize: 14,
+    color: "gray",
+    marginTop: 20,
+  },
+  button: {
+    width: '80%',
+    height: 50,
+    borderRadius: 25,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 14,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    width: 200,
+    marginTop: 60,
+  }
 })
 
 export default login

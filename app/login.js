@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
+import { Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { LinearGradient } from 'expo-linear-gradient';
@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 const login = () => {
   return (
     <LinearGradient
-      colors={['#FFF9E0', '#FFEBEB']}
+      colors={['#A8E3A0', '#FFA687']} // colors={['#FFF9E0', '#FFEBEB']}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={styles.container}
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
   logo: {
-    width: 150,
+    width: 175,
     height: 200,
   },  
 })

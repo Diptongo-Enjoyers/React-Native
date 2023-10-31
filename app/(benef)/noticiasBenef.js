@@ -1,5 +1,6 @@
 import { View, Text, Image, StyleSheet, FlatList, Pressable } from 'react-native'
 import React from 'react'
+import { Link } from 'expo-router'
 
 const noticias = [
   {
@@ -25,7 +26,18 @@ const noticias = [
 export default function noticiasBenef() {
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Image source={item.imagen} style={styles.image} />
+      <Link href={{
+        pathname: "noticiasDetalle",
+        params: {
+          titulo: item.titulo,
+          descripcion: item.descripcion,
+          imagen: item.imagen,
+        }
+      }} asChild >
+        <Pressable>
+          {() => <Image source={item.imagen} style={styles.image} />}
+        </Pressable>
+      </Link>
       <Text style={styles.titulo}>{item.titulo}</Text>
       <Text style={styles.descripcion}>{item.descripcion}</Text>
     </View>

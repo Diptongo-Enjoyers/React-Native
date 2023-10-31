@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Page() {
   return (
@@ -7,6 +7,7 @@ export default function Page() {
       <View style={styles.main}>
         <Text style={styles.title}>Bienvenido</Text>
         <Link style={styles.subtitle} href="/login">Click aqui para comenzar</Link>
+        <Link style={styles.subtitle} href="/noticiasBenef">Click aqui para Beneficiario</Link>
       </View>
     </View>
   );

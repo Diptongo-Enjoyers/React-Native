@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   subTitulo: {
     fontSize: 20,
-    color: "fff",
+    color: "black",
   },
   input: {
     padding: 10,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   contraOlvido: {
     fontSize: 14,
-    color: "fff",
+    color: "black",
     marginTop: 20,
   },
   button: {
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 14,
-    color: '#fff',
+    color: 'black',
     fontWeight: 'bold',
   },
   buttonContainer: {

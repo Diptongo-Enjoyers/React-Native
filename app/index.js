@@ -6,7 +6,7 @@ export default function Page() {
     <View style={styles.container}>
       <View style={styles.main}>
         <Text style={styles.title}>Bienvenido</Text>
-        <Link style={styles.subtitle} href="/auth">Click aqui para comenzar</Link>
+        <Link style={styles.subtitle} href="/login">Click aqui para comenzar</Link>
       </View>
     </View>
   );

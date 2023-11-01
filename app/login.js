@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 
 
 const login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const authenticate = async () => {
     const response = await fetch('https://api-three-kappa-45.vercel.app/auth/login', {
@@ -22,8 +23,8 @@ const login = () => {
 
     const data = await response.json();
     if (response.ok) {
-      // Maneja la respuesta exitosa
-      console.log("Autenticación exitosa!", data);
+      console.log("Autenticación exitosa:", data.accessToken)
+      router.replace('/');
     } else {
       // Maneja el error según lo que la API te responda
       console.error("Error en la autenticación:", data.message);

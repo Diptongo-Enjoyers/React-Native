@@ -2,6 +2,7 @@ import { Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-nati
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { LinearGradient } from 'expo-linear-gradient';
+import { Link } from 'expo-router';
 
 const login = () => {
   return (
@@ -11,6 +12,7 @@ const login = () => {
       end={{ x: 1, y: 1 }}
       style={styles.container}
     >
+      <Link href="/">ea!</Link>
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.titulo}>Login</Text>
       <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>

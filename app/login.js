@@ -1,10 +1,35 @@
-import { Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
-import { StatusBar } from 'expo-status-bar'
+import React, { useState } from 'react';
+import { Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link } from 'expo-router';
 
+
 const login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const authenticate = async () => {
+    const response = await fetch('https://api-three-kappa-45.vercel.app/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      // Maneja la respuesta exitosa
+      console.log("Autenticación exitosa!", data);
+    } else {
+      // Maneja el error según lo que la API te responda
+      console.error("Error en la autenticación:", data.message);
+    }
+  };
+
   return (
     <LinearGradient
       colors={['#FFF9E0', '#FFEBEB']}
@@ -16,11 +41,24 @@ const login = () => {
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.titulo}>Login</Text>
       <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
-      <TextInput style={styles.input} placeholder="ejemplo@gmail.com" />
-      <TextInput secureTextEntry={true} style={styles.input} placeholder="contraseña" />
+      
+      <TextInput 
+        style={styles.input} 
+        placeholder="ejemplo@gmail.com"
+        onChangeText={setEmail} 
+        value={email}
+      />
+      <TextInput 
+        secureTextEntry={true} 
+        style={styles.input} 
+        placeholder="contraseña"
+        onChangeText={setPassword}
+        value={password}
+      />
+      
       <Text style={styles.contraOlvido}>¿Olvidaste tu contraseña?</Text>
-
-      <TouchableOpacity style={styles.buttonContainer}>
+      
+      <TouchableOpacity style={styles.buttonContainer} onPress={authenticate}>
         <LinearGradient
           colors={['#FF7F39', '#E74428']}
           start={{ x: 0, y: 0 }}
@@ -34,8 +72,11 @@ const login = () => {
 
       <StatusBar style="auto" />
     </LinearGradient>
-  )
-}
+  );
+};
+
+//... (estilos y otras definiciones)
+
 
 
 const styles = StyleSheet.create({

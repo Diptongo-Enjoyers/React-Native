@@ -7,6 +7,7 @@ const login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState('');
 
   const authenticate = async () => {
     const response = await fetch('https://api-three-kappa-45.vercel.app/auth/login', {
@@ -27,6 +28,7 @@ const login = () => {
     }
     else {
       console.error("Error en la autenticación:", data.message);
+      setErrorMessage('Credenciales inválidas');
     }
   };
 
@@ -54,6 +56,8 @@ const login = () => {
         onChangeText={setPassword}
         value={password}
       />
+
+      {errorMessage && <Text style={{color: 'red', marginTop: 10}}>{errorMessage}</Text>}
       
       <Text style={styles.contraOlvido}>¿Olvidaste tu contraseña?</Text>
       

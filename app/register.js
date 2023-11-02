@@ -19,7 +19,6 @@ const register = () => {
     >
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.titulo}>Registro</Text>
-      <Text style={styles.subTitulo}>¡Bienvenido!</Text>
 
       <View style={styles.optionsContainer}>
         <TouchableOpacity 
@@ -162,7 +161,6 @@ const styles = StyleSheet.create({
   selectedButtonText: {
     color: 'white'
   }
-   
 })
 
 export default register

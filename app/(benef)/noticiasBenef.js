@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet, FlatList, Pressable } from 'react-native'
 import React from 'react'
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router';
+import BottomTabBar from '../../Components/BottomTabBar';
 
 const noticias = [
   {
@@ -24,6 +25,9 @@ const noticias = [
 ]
 
 export default function noticiasBenef() {
+  const selectedTab = 'noticiasBenef';
+  const router = useRouter();
+
   const renderItem = ({ item }) => (
     <View style={styles.card}>
       <Link href={{
@@ -50,6 +54,7 @@ export default function noticiasBenef() {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />
+      <BottomTabBar selectedTab={selectedTab} />
     </View>
   )
 }

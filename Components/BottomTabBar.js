@@ -12,14 +12,14 @@ export default function BottomTabBar({ selectedTab }) {
 
   return (
     <View style={styles.tabContainer}>
-      <TouchableOpacity style={styles.tab} onPress={() => handleTabSelect('/noticiasBenef')}>
-        <MaterialCommunityIcons name="newspaper" size={24} color={selectedTab === 'noticiasBenef' ? '#e91e63' : 'gray'} />
-        <Text style={[styles.tabText, selectedTab === 'noticiasBenef' ? styles.activeTabText : {}]}>Noticias</Text>
-      </TouchableOpacity>
-
       <TouchableOpacity style={styles.tab} onPress={() => handleTabSelect('/perfilBenef')}>
         <MaterialCommunityIcons name="account" size={24} color={selectedTab === 'perfilBenef' ? '#e91e63' : 'gray'} />
         <Text style={[styles.tabText, selectedTab === 'perfilBenef' ? styles.activeTabText : {}]}>Perfil</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.tab} onPress={() => handleTabSelect('/noticiasBenef')}>
+        <MaterialCommunityIcons name="newspaper" size={24} color={selectedTab === 'noticiasBenef' ? '#e91e63' : 'gray'} />
+        <Text style={[styles.tabText, selectedTab === 'noticiasBenef' ? styles.activeTabText : {}]}>Noticias</Text>
       </TouchableOpacity>
     </View>
   );

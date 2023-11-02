@@ -1,15 +1,41 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Link, useRouter } from 'expo-router';
+import { Link, router, useRouter } from 'expo-router';
 
-const register = () => {
+
+const Register = () => { // Cambiado a mayúscula para seguir las convenciones de React
   const [alias, setAlias] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
   const router = useRouter();
 
+  const registerUser = async () => { // Mover la función al interior del componente
+    const clearanceValue = selectedOption === 'beneficiario' ? 1 : 2;
+
+    const response = await fetch('https://api-three-kappa-45.vercel.app/auth/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password,
+            username: alias,
+            clearance: clearanceValue
+        }),
+    });
+
+    const data = await response.json();
+
+    if(response.ok) {
+        router.replace('/noticiasBenef');
+        console.log('Usuario registrado con éxito:', data);
+    } else {
+        console.error('Error registrando usuario:', data);
+    }
+  };
   return (
     <LinearGradient
       colors={['#FFF9E0', '#FFEBEB']}
@@ -60,7 +86,7 @@ const register = () => {
         value={password}
       />
 
-      <TouchableOpacity style={styles.buttonContainer}>
+      <TouchableOpacity style={styles.buttonContainer} onPress={registerUser}>
         <LinearGradient
           colors={['#FF7F39', '#E74428']}
           start={{ x: 0, y: 0 }}
@@ -183,4 +209,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default register
+export default Register

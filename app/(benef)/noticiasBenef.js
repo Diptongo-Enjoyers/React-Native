@@ -7,19 +7,15 @@ const noticias = [
   {
     id: 1,
     titulo: "Noticia 1",
+    autor: "Autor de la noticia 1",
     descripcion: "Descripcion de la noticia 1",
     imagen: require('../../assets/logo.png')
   },
   {
     id: 2,
     titulo: "Noticia 2",
+    autor: "Autor de la noticia 1",
     descripcion: "Descripcion de la noticia 2",
-    imagen: require('../../assets/logo.png')
-  },
-  {
-    id: 3,
-    titulo: "Noticia 3",
-    descripcion: "Descripcion de la noticia 3",
     imagen: require('../../assets/logo.png')
   },
 ]
@@ -34,6 +30,7 @@ export default function noticiasBenef() {
         pathname: "noticiasDetalle",
         params: {
           titulo: item.titulo,
+          autor: item.autor,
           descripcion: item.descripcion,
           imagen: item.imagen,
         }
@@ -43,6 +40,7 @@ export default function noticiasBenef() {
         </Pressable>
       </Link>
       <Text style={styles.titulo}>{item.titulo}</Text>
+      <Text style={styles.descripcion}>{item.autor}</Text>
       <Text style={styles.descripcion}>{item.descripcion}</Text>
     </View>
   );

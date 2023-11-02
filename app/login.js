@@ -73,7 +73,7 @@ const login = () => {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.registerButton} >
-          <Text style={styles.registerButtonText}>Registrate aqui</Text>
+          <Text style={styles.registerButtonText}>Registrate aquí</Text>
         </LinearGradient>
       </TouchableOpacity>
 

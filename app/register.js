@@ -76,7 +76,7 @@ const register = () => {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.loginButton} >
-          <Text style={styles.loginButtonText}>Inicia session aqui</Text>
+          <Text style={styles.loginButtonText}>Inicia sesión aquí</Text>
         </LinearGradient>
       </TouchableOpacity>
 

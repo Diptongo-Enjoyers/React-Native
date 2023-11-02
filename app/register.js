@@ -8,6 +8,7 @@ const register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
+  const router = useRouter();
 
   return (
     <LinearGradient
@@ -38,7 +39,7 @@ const register = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      
+
       <TextInput 
         style={styles.input} 
         placeholder="Alias"
@@ -69,7 +70,15 @@ const register = () => {
         </LinearGradient>
       </TouchableOpacity>
 
-      <Link href="/login" style={styles.contraOlvido}>Inicia sessión aqui</Link>
+      <TouchableOpacity style={styles.loginButtonContainer} onPress={() => router.replace('/login')}>
+        <LinearGradient
+          colors={['#FF9755', '#FF7F39']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.loginButton} >
+          <Text style={styles.loginButtonText}>Inicia session aqui</Text>
+        </LinearGradient>
+      </TouchableOpacity>
 
       <StatusBar style="auto" />
     </LinearGradient>
@@ -153,7 +162,25 @@ const styles = StyleSheet.create({
   },
   selectedButtonText: {
     color: 'white'
-  }
+  },
+  loginButtonContainer: {
+    alignItems: 'center',
+    width: 200,
+    marginTop: 20,
+  },
+  loginButton: {
+    height: 35,
+    width: 120,
+    borderRadius: 20,
+    padding: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loginButtonText: {
+    fontSize: 12,
+    color: 'white',
+    fontWeight: 'bold',
+  },
 })
 
 export default register

@@ -45,7 +45,6 @@ export default function noticiasBenef() {
   
   return (
     <View style={styles.container}>
-      <Link href="../">Ea!</Link>
       <FlatList
         data={noticias}
         renderItem={renderItem}

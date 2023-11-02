@@ -23,7 +23,7 @@ const login = () => {
     const data = await response.json();
     if (response.ok) {
       console.log("Autenticación exitosa:", data.accessToken)
-      router.replace('/');
+      router.replace('/noticiasBenef');
     }
     else {
       console.error("Error en la autenticación:", data.message);

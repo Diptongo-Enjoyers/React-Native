@@ -10,6 +10,11 @@ const register = () => {
   const [password, setPassword] = useState('');
   const [telefono, setTelefono] = useState('');
 
+  const handleTelefonoChange = (text) => {
+    const cleaned = text.replace(/[^0-9]/g, "");
+    setTelefono(cleaned);
+  };
+
   return (
     <LinearGradient
       colors={['#FFF9E0', '#FFEBEB']}
@@ -47,11 +52,11 @@ const register = () => {
         value={password}
       />
       <TextInput 
-        secureTextEntry={true} 
         style={styles.input} 
         placeholder="Telefono"
-        onChangeText={setTelefono}
+        onChangeText={handleTelefonoChange}
         value={telefono}
+        keyboardType="numeric"
       />
       
       <TouchableOpacity style={styles.buttonContainer}>

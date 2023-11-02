@@ -4,7 +4,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Link, useRouter } from 'expo-router';
 
 const register = () => {
-  const [nombre, setNombre] = useState('');
   const [alias, setAlias] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,13 +38,7 @@ const register = () => {
           </Text>
         </TouchableOpacity>
       </View>
-
-      <TextInput 
-        style={styles.input} 
-        placeholder="Nombre completo"
-        onChangeText={setNombre} 
-        value={nombre}
-      />
+      
       <TextInput 
         style={styles.input} 
         placeholder="Alias"

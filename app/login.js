@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 
 const login = () => {
   const [email, setEmail] = useState('');

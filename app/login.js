@@ -67,7 +67,15 @@ const login = () => {
         </LinearGradient>
       </TouchableOpacity>
 
-      <Link href="/register" style={styles.contraOlvido}>Registrate aqui</Link>
+      <TouchableOpacity style={styles.registerButtonContainer} onPress={() => router.replace('/register')}>
+        <LinearGradient
+          colors={['#FF9755', '#FF7F39']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.registerButton} >
+          <Text style={styles.registerButtonText}>Registrate aqui</Text>
+        </LinearGradient>
+      </TouchableOpacity>
 
       <StatusBar style="auto" />
     </LinearGradient>
@@ -125,6 +133,24 @@ const styles = StyleSheet.create({
   logo: {
     width: 175,
     height: 200,
+  },
+  registerButtonContainer: {
+    alignItems: 'center',
+    width: 200,
+    marginTop: 20,
+  },
+  registerButton: {
+    height: 35,
+    width: 120,
+    borderRadius: 20,
+    padding: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  registerButtonText: {
+    fontSize: 12,
+    color: 'white',
+    fontWeight: 'bold',
   },
 })
 

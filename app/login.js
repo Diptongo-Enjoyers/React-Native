@@ -3,7 +3,6 @@ import { Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link, useRouter } from 'expo-router';
 
-
 const login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,8 +24,8 @@ const login = () => {
     if (response.ok) {
       console.log("Autenticación exitosa:", data.accessToken)
       router.replace('/');
-    } else {
-      // Maneja el error según lo que la API te responda
+    }
+    else {
       console.error("Error en la autenticación:", data.message);
     }
   };
@@ -38,7 +37,6 @@ const login = () => {
       end={{ x: 1, y: 1 }}
       style={styles.container}
     >
-      <Link href="/">ea!</Link>
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.titulo}>Login</Text>
       <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
@@ -75,10 +73,6 @@ const login = () => {
     </LinearGradient>
   );
 };
-
-//... (estilos y otras definiciones)
-
-
 
 const styles = StyleSheet.create({
   container: {

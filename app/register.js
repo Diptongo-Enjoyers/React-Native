@@ -3,32 +3,12 @@ import { Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link, useRouter } from 'expo-router';
 
-const login = () => {
+const register = () => {
+  const [nombre, setNombre] = useState('');
+  const [alias, setAlias] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter();
-
-  const authenticate = async () => {
-    const response = await fetch('https://api-three-kappa-45.vercel.app/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password
-      })
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      console.log("Autenticación exitosa:", data.accessToken)
-      router.replace('/noticiasBenef');
-    }
-    else {
-      console.error("Error en la autenticación:", data.message);
-    }
-  };
+  const [telefono, setTelefono] = useState('');
 
   return (
     <LinearGradient
@@ -39,8 +19,20 @@ const login = () => {
     >
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.titulo}>Registro</Text>
-      <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
+      <Text style={styles.subTitulo}>¡Bienvenido!</Text>
       
+      <TextInput 
+        style={styles.input} 
+        placeholder="Nombre completo"
+        onChangeText={setNombre} 
+        value={nombre}
+      />
+      <TextInput 
+        style={styles.input} 
+        placeholder="Alias"
+        onChangeText={setAlias} 
+        value={alias}
+      />
       <TextInput 
         style={styles.input} 
         placeholder="ejemplo@gmail.com"
@@ -50,12 +42,19 @@ const login = () => {
       <TextInput 
         secureTextEntry={true} 
         style={styles.input} 
-        placeholder="contraseña"
+        placeholder="Contraseña"
         onChangeText={setPassword}
         value={password}
       />
+      <TextInput 
+        secureTextEntry={true} 
+        style={styles.input} 
+        placeholder="Telefono"
+        onChangeText={setTelefono}
+        value={telefono}
+      />
       
-      <TouchableOpacity style={styles.buttonContainer} onPress={authenticate}>
+      <TouchableOpacity style={styles.buttonContainer}>
         <LinearGradient
           colors={['#FF7F39', '#E74428']}
           start={{ x: 0, y: 0 }}
@@ -118,7 +117,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: 'center',
     width: 200,
-    marginTop: 60,
+    marginTop: 30,
   },
   logo: {
     width: 175,
@@ -126,4 +125,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default login
+export default register

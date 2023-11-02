@@ -38,7 +38,7 @@ const login = () => {
       style={styles.container}
     >
       <Image source={require('../assets/logo.png')} style={styles.logo} />
-      <Text style={styles.titulo}>Login</Text>
+      <Text style={styles.titulo}>Registro</Text>
       <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
       
       <TextInput 
@@ -55,19 +55,17 @@ const login = () => {
         value={password}
       />
       
-      <Text style={styles.contraOlvido}>¿Olvidaste tu contraseña?</Text>
-      
       <TouchableOpacity style={styles.buttonContainer} onPress={authenticate}>
         <LinearGradient
           colors={['#FF7F39', '#E74428']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.button} >
-          <Text style={styles.buttonText}>Iniciar sesión</Text>
+          <Text style={styles.buttonText}>Registarse</Text>
         </LinearGradient>
       </TouchableOpacity>
 
-      <Link href="/register" style={styles.contraOlvido}>Registrate aqui</Link>
+      <Link href="/login" style={styles.contraOlvido}>Inicia sessión aqui</Link>
 
       <StatusBar style="auto" />
     </LinearGradient>

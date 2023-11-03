@@ -7,7 +7,7 @@ export default function Page() {
       <View style={styles.main}>
         <Text style={styles.title}>Bienvenido</Text>
         <Link style={styles.subtitle} href="/login">Click aqui para comenzar</Link>
-        <Link style={styles.subtitle} href="/noticiasBenef">Benef</Link>
+        <Link style={styles.subtitle} href="/noticiasAdmin">Benef</Link>
       </View>
     </View>
   );

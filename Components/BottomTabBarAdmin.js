@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-export default function BottomTabBar({ selectedTab }) {
+export default function BottomTabBarAdmin({ selectedTab }) {
   const router = useRouter();
 
   const handleTabSelect = (route) => {
@@ -12,14 +12,14 @@ export default function BottomTabBar({ selectedTab }) {
 
   return (
     <View style={styles.tabContainer}>
-      <TouchableOpacity style={styles.tab} onPress={() => handleTabSelect('/perfilBenef')}>
-        <MaterialCommunityIcons name="account" size={24} color={selectedTab === 'perfilBenef' ? '#e91e63' : 'gray'} />
-        <Text style={[styles.tabText, selectedTab === 'perfilBenef' ? styles.activeTabText : {}]}>Perfil</Text>
+      <TouchableOpacity style={styles.tab} onPress={() => handleTabSelect('/perfilAdmin')}>
+        <MaterialCommunityIcons name="account" size={24} color={selectedTab === 'perfilAdmin' ? '#e91e63' : 'gray'} />
+        <Text style={[styles.tabText, selectedTab === 'perfilAdmin' ? styles.activeTabText : {}]}>Perfil</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.tab} onPress={() => handleTabSelect('/noticiasBenef')}>
-        <MaterialCommunityIcons name="newspaper" size={24} color={selectedTab === 'noticiasBenef' ? '#e91e63' : 'gray'} />
-        <Text style={[styles.tabText, selectedTab === 'noticiasBenef' ? styles.activeTabText : {}]}>Noticias</Text>
+      <TouchableOpacity style={styles.tab} onPress={() => handleTabSelect('/noticiasAdmin')}>
+        <MaterialCommunityIcons name="newspaper" size={24} color={selectedTab === 'noticiasAdmin' ? '#e91e63' : 'gray'} />
+        <Text style={[styles.tabText, selectedTab === 'noticiasAdmin' ? styles.activeTabText : {}]}>Noticias</Text>
       </TouchableOpacity>
     </View>
   );

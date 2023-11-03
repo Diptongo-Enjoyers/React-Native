@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, FlatList, Pressable } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import BottomTabBarBenef from '../../Components/BottomTabBarBenef';
+import BottomTabBarAdmin from '../../Components/BottomTabBarAdmin';
 
-export default function noticiasBenef() {
+export default function noticiasAdmin() {
     const [noticias, setNoticias] = useState([]);
-    const selectedTab = 'noticiasBenef';
+    const selectedTab = 'noticiasAdmin';
     const router = useRouter();
 
     useEffect(() => {
@@ -59,7 +59,7 @@ export default function noticiasBenef() {
                 renderItem={renderItem}
                 keyExtractor={(item) => item._id}
             />
-            <BottomTabBarBenef selectedTab={selectedTab} />
+            <BottomTabBarAdmin selectedTab={selectedTab} />
         </View>
     );
 }

@@ -14,6 +14,46 @@ export default function noticiasAdmin() {
     const [descripcion, setDescripcion] = useState('');
     const [imagen, setImagen] = useState('');
 
+    const [userToken, setUserToken] = useState(null);
+
+    useEffect(() => {
+        const fetchToken = async () => {
+            const token = await AsyncStorage.getItem('userToken');
+            setUserToken(token);
+        };
+
+        fetchToken();
+    }, []);
+
+    const createNewArticle = async () => {
+        try {
+            const response = await fetch('https://api-three-kappa-45.vercel.app/news/createNews', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${userToken}`
+                },
+                body: JSON.stringify({
+                    title: titulo,
+                    body: descripcion,
+                    image: imagen,
+                    date: new Date() // Asumiendo que quieres establecer la fecha actual.
+                })
+            });
+
+            if (response.ok) {
+                console.log('Noticia creada exitosamente');
+                // Aquí puedes actualizar tu lista de noticias o hacer otras acciones si es necesario
+                setModalVisible(false);
+            } else {
+                const data = await response.json();
+                console.error("Error al crear la noticia:", data.message);
+            }
+        } catch (error) {
+            console.error("Error al crear la noticia:", error);
+        }
+    };
+
     useEffect(() => {
         const fetchNoticias = async () => {
             try {
@@ -92,7 +132,7 @@ export default function noticiasAdmin() {
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => {
-                                
+                                createNewArticle();
                                 setModalVisible(false);
                             }}>
                             <Text>Confirmar</Text>

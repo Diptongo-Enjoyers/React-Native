@@ -56,7 +56,7 @@ export default function noticiasAdmin() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${userToken}`
         },
         body: JSON.stringify({
           title: titulo,

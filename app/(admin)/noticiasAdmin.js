@@ -51,8 +51,6 @@ export default function noticiasAdmin() {
     Se utiliza el token para poder crear la noticia
   */
   const createNewArticle = async () => {
-    const token = await AsyncStorage.getItem('userToken');
-    setUserToken(token);
     try {
       const response = await fetch('https://api-three-kappa-45.vercel.app/news/createNews', {
         method: 'POST',

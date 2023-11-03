@@ -13,56 +13,18 @@ export default function noticiasAdmin() {
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [imagen, setImagen] = useState('');
-
-    const [userToken, setUserToken] = useState(null);
+    const [userToken, setUserToken] = useState('');
 
     useEffect(() => {
-        const fetchToken = async () => {
+        // Recupera el token y las noticias, se utiliza AsyncStorage para almacenar el token con la funcion getItem y se guarda el token en la variable userToken
+        // Se utiliza la funcion fetch para obtener las noticias, se utiliza el token para poder acceder a las noticias
+        const fetchTokenAndData = async () => {
             const token = await AsyncStorage.getItem('userToken');
             setUserToken(token);
-        };
-
-        fetchToken();
-    }, []);
-
-    const createNewArticle = async () => {
-        try {
-            const response = await fetch('https://api-three-kappa-45.vercel.app/news/createNews', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${userToken}`
-                },
-                body: JSON.stringify({
-                    title: titulo,
-                    body: descripcion,
-                    image: imagen,
-                    date: new Date() // Asumiendo que quieres establecer la fecha actual.
-                })
-            });
-
-            if (response.ok) {
-                console.log('Noticia creada exitosamente');
-                // Aquí puedes actualizar tu lista de noticias o hacer otras acciones si es necesario
-                setModalVisible(false);
-            } else {
-                const data = await response.json();
-                console.error("Error al crear la noticia:", data.message);
-            }
-        } catch (error) {
-            console.error("Error al crear la noticia:", error);
-        }
-    };
-
-    useEffect(() => {
-        const fetchNoticias = async () => {
             try {
-                // Recupera el token
-                const userToken = await AsyncStorage.getItem('userToken');
-                
                 const response = await fetch('https://api-three-kappa-45.vercel.app/news', {
                     headers: {
-                        'Authorization': `Bearer ${userToken}`
+                        'Authorization': `Bearer ${token}`
                     }
                 });
                 
@@ -72,9 +34,43 @@ export default function noticiasAdmin() {
                 console.error("Error al obtener las noticias:", error);
             }
         };
-
-        fetchNoticias();
+    
+        fetchTokenAndData();
     }, []);
+
+    // Funcion para crear una nueva noticia, se utiliza el token para poder crear la noticia, se verifica que sea Admin desde el back
+    // Se utiliza la funcion fetch para crear la noticia, se utiliza el token para poder crear la noticia
+    
+    const createNewArticle = async () => {
+        const token = await AsyncStorage.getItem('userToken');
+        setUserToken(token);
+        try {
+            const response = await fetch('https://api-three-kappa-45.vercel.app/news/createNews', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    title: titulo,
+                    body: descripcion,
+                    image: imagen,
+                    date: new Date() // Asumiendo que quieres establecer la fecha actual.
+                })
+            });
+    
+            if (response.ok) {
+                console.log('Noticia creada exitosamente');
+                setModalVisible(false);
+            } else {
+                const data = await response.json();
+                console.error("Error al crear la noticia:", data.message);
+            }
+        } catch (error) {
+            console.error("Error al crear la noticia:", error);
+        }
+    };
+    
 
     const renderItem = ({ item }) => (
         <View style={styles.card}>

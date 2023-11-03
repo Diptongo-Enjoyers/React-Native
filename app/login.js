@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link, useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const login = () => {
   const [email, setEmail] = useState('');
@@ -23,7 +24,9 @@ const login = () => {
 
     const data = await response.json();
     if (response.ok) {
-      console.log("Autenticación exitosa:", data.accessToken)
+      // Almacena el token
+      await AsyncStorage.setItem('userToken', data.accessToken);
+      
       router.replace('/noticiasBenef');
     }
     else {

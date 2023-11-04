@@ -4,6 +4,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Link, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const ADMIN_CLEARANCE = 0;
+const WORKER_CLEARANCE = 1;
+const DONATOR_CLEARANCE = 2;
+const RECEIVER_CLEARANCE = 3;
+
 const login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,19 +26,38 @@ const login = () => {
         password: password
       })
     });
-
+  
     const data = await response.json();
     if (response.ok) {
       // Almacena el token
       await AsyncStorage.setItem('userToken', data.accessToken);
       
-      router.replace('/noticiasBenef');
+      // Hacer una solicitud a la ruta que devuelve la información del usuario
+      const userResponse = await fetch('https://api-three-kappa-45.vercel.app/users/getMe', {
+        headers: {
+          'Authorization': `Bearer ${data.accessToken}`
+        }
+      });
+  
+      if(userResponse.ok) {
+        const userData = await userResponse.json();
+        console.log(userData);
+        if(userData.clearance === ADMIN_CLEARANCE) {
+          router.replace('/noticiasAdmin'); // Ajusta a la ruta adecuada para administradores
+        } else {
+          router.replace('/noticiasBenef');
+        }
+      } else {
+        console.error("Error al obtener información del usuario");
+        setErrorMessage('Error al obtener información del usuario');
+      }
     }
     else {
       console.error("Error en la autenticación:", data.message);
       setErrorMessage('Credenciales inválidas');
     }
   };
+  
 
   return (
     <LinearGradient

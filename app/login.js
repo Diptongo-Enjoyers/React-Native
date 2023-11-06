@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -60,6 +60,7 @@ const login = () => {
   
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <LinearGradient
       colors={['#FFF9E0', '#FFEBEB']}
       start={{ x: 0, y: 0 }}
@@ -110,6 +111,8 @@ const login = () => {
 
       <StatusBar style="auto" />
     </LinearGradient>
+    </TouchableWithoutFeedback>
+
   );
 };
 

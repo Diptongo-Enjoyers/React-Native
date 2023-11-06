@@ -6,14 +6,13 @@ import {
   StyleSheet,
   FlatList,
   Pressable,
-  Button,
   TextInput,
   TouchableOpacity,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabBarAdmin from "../../Components/BottomTabBarAdmin";
-import { Modal, VStack, HStack, Center, NativeBaseProvider } from 'native-base';
+import { Modal, Button, VStack, HStack, Center, NativeBaseProvider } from 'native-base';
 
 
 export default function noticiasAdmin() {
@@ -135,6 +134,7 @@ export default function noticiasAdmin() {
             <Modal.Content maxWidth="100%" maxHeight="100%" flex={1}>
               <Modal.CloseButton />
               <Modal.Header>Create News</Modal.Header>
+              <Modal.Body>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   <TextInput
@@ -155,26 +155,24 @@ export default function noticiasAdmin() {
                     onChangeText={setImagen}
                     style={styles.input}
                   />
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {
-                      createNewArticle();
-                      setModalVisible(false);
-                    }}>
-                    <Text style={styles.buttonText}>Confirmar</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {
-                      setTitulo('');
-                      setDescripcion('');
-                      setImagen('');
-                      setModalVisible(false);
-                    }}>
-                    <Text style={styles.buttonText}>Cancelar</Text>
-                  </TouchableOpacity>
                 </View>
               </View>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button.Group space={2}>
+                  <Button variant="ghost" colorScheme="blueGray" onPress={() => {
+                  setModalVisible(false);
+                }}>
+                    Cancel
+                  </Button>
+                  <Button onPress={() => {
+                  createNewArticle();
+                  setModalVisible(false);
+                }}>
+                    Save
+                  </Button>
+                </Button.Group>
+              </Modal.Footer>
             </Modal.Content>
           </Modal>
         </TouchableOpacity >

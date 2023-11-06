@@ -26,23 +26,23 @@ const login = () => {
         password: password
       })
     });
-  
+
     const data = await response.json();
     if (response.ok) {
       // Almacena el token
       await AsyncStorage.setItem('userToken', data.accessToken);
-      
+
       // Hacer una solicitud a la ruta que devuelve la información del usuario
       const userResponse = await fetch('https://api-three-kappa-45.vercel.app/users/getMe', {
         headers: {
           'Authorization': `Bearer ${data.accessToken}`
         }
       });
-  
-      if(userResponse.ok) {
+
+      if (userResponse.ok) {
         const userData = await userResponse.json();
         console.log(userData);
-        if(userData.clearance === ADMIN_CLEARANCE) {
+        if (userData.clearance === ADMIN_CLEARANCE) {
           router.replace('/noticiasAdmin'); // Ajusta a la ruta adecuada para administradores
         } else {
           router.replace('/noticiasBenef');
@@ -57,60 +57,60 @@ const login = () => {
       setErrorMessage('Credenciales inválidas');
     }
   };
-  
+
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <LinearGradient
-      colors={['#FFF9E0', '#FFEBEB']}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.container}
-    >
-      <Image source={require('../assets/logo.png')} style={styles.logo} />
-      <Text style={styles.titulo}>Login</Text>
-      <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
-      
-      <TextInput 
-        style={styles.input} 
-        placeholder="ejemplo@gmail.com"
-        onChangeText={setEmail} 
-        value={email}
-      />
-      <TextInput 
-        secureTextEntry={true} 
-        style={styles.input} 
-        placeholder="Contraseña"
-        onChangeText={setPassword}
-        value={password}
-      />
+      <LinearGradient
+        colors={['#FFF9E0', '#FFEBEB']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.container}
+      >
+        <Image source={require('../assets/logo.png')} style={styles.logo} />
+        <Text style={styles.titulo}>Login</Text>
+        <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
 
-      {errorMessage && <Text style={{color: 'red', marginTop: 10}}>{errorMessage}</Text>}
-      
-      <Text style={styles.contraOlvido}>¿Olvidaste tu contraseña?</Text>
-      
-      <TouchableOpacity style={styles.buttonContainer} onPress={authenticate}>
-        <LinearGradient
-          colors={['#FF7F39', '#E74428']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.button} >
-          <Text style={styles.buttonText}>Iniciar sesión</Text>
-        </LinearGradient>
-      </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder="ejemplo@gmail.com"
+          onChangeText={setEmail}
+          value={email}
+        />
+        <TextInput
+          secureTextEntry={true}
+          style={styles.input}
+          placeholder="Contraseña"
+          onChangeText={setPassword}
+          value={password}
+        />
 
-      <TouchableOpacity style={styles.registerButtonContainer} onPress={() => router.replace('/register')}>
-        <LinearGradient
-          colors={['#FF9755', '#FF7F39']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.registerButton} >
-          <Text style={styles.registerButtonText}>Registrate aquí</Text>
-        </LinearGradient>
-      </TouchableOpacity>
+        {errorMessage && <Text style={{ color: 'red', marginTop: 10 }}>{errorMessage}</Text>}
 
-      <StatusBar style="auto" />
-    </LinearGradient>
+        <Text style={styles.contraOlvido}>¿Olvidaste tu contraseña?</Text>
+
+        <TouchableOpacity style={styles.buttonContainer} onPress={authenticate}>
+          <LinearGradient
+            colors={['#FF7F39', '#E74428']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.button} >
+            <Text style={styles.buttonText}>Iniciar sesión</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.registerButtonContainer} onPress={() => router.replace('/register')}>
+          <LinearGradient
+            colors={['#FF9755', '#FF7F39']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.registerButton} >
+            <Text style={styles.registerButtonText}>Registrate aquí</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+
+        <StatusBar style="auto" />
+      </LinearGradient>
     </TouchableWithoutFeedback>
   );
 };

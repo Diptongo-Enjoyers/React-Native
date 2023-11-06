@@ -15,25 +15,25 @@ const Register = () => { // Cambiado a mayúscula para seguir las convenciones d
     const clearanceValue = selectedOption === 'beneficiario' ? 1 : 2;
 
     const response = await fetch('https://api-three-kappa-45.vercel.app/auth/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email: email,
-            password: password,
-            username: alias,
-            clearance: clearanceValue
-        }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        username: alias,
+        clearance: clearanceValue
+      }),
     });
 
     const data = await response.json();
 
-    if(response.ok) {
-        router.replace('/noticiasBenef');
-        console.log('Usuario registrado con éxito:', data);
+    if (response.ok) {
+      router.replace('/noticiasBenef');
+      console.log('Usuario registrado con éxito:', data);
     } else {
-        console.error('Error registrando usuario:', data);
+      console.error('Error registrando usuario:', data);
     }
   };
   return (
@@ -47,8 +47,8 @@ const Register = () => { // Cambiado a mayúscula para seguir las convenciones d
       <Text style={styles.titulo}>Registro</Text>
 
       <View style={styles.optionsContainer}>
-        <TouchableOpacity 
-          style={[styles.optionButton, selectedOption === 'beneficiario' && styles.selectedButton]} 
+        <TouchableOpacity
+          style={[styles.optionButton, selectedOption === 'beneficiario' && styles.selectedButton]}
           onPress={() => setSelectedOption('beneficiario')}
         >
           <Text style={[styles.optionButtonText, selectedOption === 'beneficiario' && styles.selectedButtonText]}>
@@ -56,31 +56,31 @@ const Register = () => { // Cambiado a mayúscula para seguir las convenciones d
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={[styles.optionButton, selectedOption === 'Donador' && styles.selectedButton]} 
+        <TouchableOpacity
+          style={[styles.optionButton, selectedOption === 'Donador' && styles.selectedButton]}
           onPress={() => setSelectedOption('Donador')}
         >
           <Text style={[styles.optionButtonText, selectedOption === 'Donador' && styles.selectedButtonText]}>
-          Donador
+            Donador
           </Text>
         </TouchableOpacity>
       </View>
 
-      <TextInput 
-        style={styles.input} 
+      <TextInput
+        style={styles.input}
         placeholder="Alias"
-        onChangeText={setAlias} 
+        onChangeText={setAlias}
         value={alias}
       />
-      <TextInput 
-        style={styles.input} 
+      <TextInput
+        style={styles.input}
         placeholder="ejemplo@gmail.com"
-        onChangeText={setEmail} 
+        onChangeText={setEmail}
         value={email}
       />
-      <TextInput 
-        secureTextEntry={true} 
-        style={styles.input} 
+      <TextInput
+        secureTextEntry={true}
+        style={styles.input}
         placeholder="Contraseña"
         onChangeText={setPassword}
         value={password}
@@ -168,13 +168,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '80%',
     marginTop: 20
-  },  
+  },
   optionButton: {
-    width: '48%', 
-    padding: 10, 
-    alignItems: 'center', 
-    borderRadius: 25, 
-    borderWidth: 1, 
+    width: '48%',
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: 25,
+    borderWidth: 1,
     borderColor: '#FF7F39',
     backgroundColor: 'white'
   },

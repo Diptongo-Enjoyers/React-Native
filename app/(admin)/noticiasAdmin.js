@@ -42,7 +42,7 @@ export default function noticiasAdmin() {
     fetchTokenAndData();
   }, []);
 
-  
+
   /*
     Funcion para crear una nueva noticia
     Se utiliza el token para poder crear la noticia

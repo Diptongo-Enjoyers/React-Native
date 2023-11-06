@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 
-export default function miss () {
+export default function miss() {
   return (
     <View>
       <Text style={styles.text}>404 not found</Text>
@@ -10,9 +10,8 @@ export default function miss () {
 }
 
 const styles = StyleSheet.create({
-    text: {
-        fontSize: 25,
-        fontWeight: "bold",
-    },
-  });
-  
+  text: {
+    fontSize: 25,
+    fontWeight: "bold",
+  },
+});

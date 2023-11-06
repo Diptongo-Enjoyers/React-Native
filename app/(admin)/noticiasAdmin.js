@@ -144,7 +144,7 @@ export default function noticiasAdmin() {
                   createNewArticle();
                   setModalVisible(false);
                 }}>
-                <Text>Confirmar</Text>
+                <Text style={styles.buttonText}>Confirmar</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button}
@@ -154,7 +154,7 @@ export default function noticiasAdmin() {
                   setImagen('');
                   setModalVisible(false);
                 }}>
-                <Text>Cancelar</Text>
+                <Text style={styles.buttonText}>Cancelar</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -223,11 +223,16 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   button: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#e91e63",
     borderRadius: 20,
     padding: 10,
     elevation: 2,
     margin: 5
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
   addButton: {
     width: 60,

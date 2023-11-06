@@ -8,7 +8,7 @@ const SingleHouseScreen = () => {
   return (
     <View style={styles.container}>
       <Button title="Volver" onPress={back} />
-      <Image source={imagen} style={styles.imagen} />
+      <Image source={{ uri: imagen }} style={styles.imagen} />
       <Text style={styles.titulo}>{titulo}</Text>
       <Text style={styles.descripcion}>{descripcion}</Text>
     </View>

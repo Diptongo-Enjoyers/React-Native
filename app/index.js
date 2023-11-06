@@ -6,9 +6,15 @@ export default function Page() {
     <View style={styles.container}>
       <View style={styles.main}>
         <Text style={styles.title}>Bienvenido</Text>
-        <Link style={styles.subtitle} href="/login">Click aqui para comenzar</Link>
-        <Link style={styles.subtitle} href="/noticiasAdmin">Admin</Link>
-        <Link style={styles.subtitle} href="/noticiasBenef">Benef</Link>
+        <Link style={styles.subtitle} href="/login">
+          Click aqui para comenzar
+        </Link>
+        <Link style={styles.subtitle} href="/noticiasAdmin">
+          Admin
+        </Link>
+        <Link style={styles.subtitle} href="/noticiasBenef">
+          Benef
+        </Link>
       </View>
     </View>
   );

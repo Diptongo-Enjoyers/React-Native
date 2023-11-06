@@ -120,69 +120,69 @@ export default function noticiasAdmin() {
 
   return (
     <View style={styles.container}>
-      <Button title="Abrir Modal" onPress={() => setModalVisible(true)} />
-      {/* Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <TextInput
-              placeholder="Título"
-              value={titulo}
-              onChangeText={setTitulo}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Descripción"
-              value={descripcion}
-              onChangeText={setDescripcion}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="URL de la Imagen"
-              value={imagen}
-              onChangeText={setImagen}
-              style={styles.input}
-            />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                createNewArticle();
-                setModalVisible(false);
-              }}
-            >
-              <Text>Confirmar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                setTitulo("");
-                setDescripcion("");
-                setImagen("");
-                setModalVisible(false);
-              }}
-            >
-              <Text>Cancelar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-
       <FlatList
         data={noticias}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
       />
+
+      <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
+        <Text style={styles.addButtonText}>+</Text>
+        {/* Modal */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TextInput
+                placeholder="Título"
+                value={titulo}
+                onChangeText={setTitulo}
+                style={styles.input}
+              />
+              <TextInput
+                placeholder="Descripción"
+                value={descripcion}
+                onChangeText={setDescripcion}
+                style={styles.input}
+              />
+              <TextInput
+                placeholder="URL de la Imagen"
+                value={imagen}
+                onChangeText={setImagen}
+                style={styles.input}
+              />
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  createNewArticle();
+                  setModalVisible(false);
+                }}>
+                <Text style={styles.buttonText}>Confirmar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  setTitulo('');
+                  setDescripcion('');
+                  setImagen('');
+                  setModalVisible(false);
+                }}>
+                <Text style={styles.buttonText}>Cancelar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </TouchableOpacity >
       <BottomTabBarAdmin selectedTab={selectedTab} />
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -241,10 +241,36 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#e91e63",
     borderRadius: 20,
     padding: 10,
     elevation: 2,
     margin: 5,
   },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  addButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 25,
+    backgroundColor: '#e91e63',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    position: 'absolute',
+    bottom: 125,
+    right: 16
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold'
+  }
 });

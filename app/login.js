@@ -112,7 +112,6 @@ const login = () => {
       <StatusBar style="auto" />
     </LinearGradient>
     </TouchableWithoutFeedback>
-
   );
 };
 

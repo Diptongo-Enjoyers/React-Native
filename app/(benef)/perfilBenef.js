@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
-import { Link, useRouter } from 'expo-router';
-import BottomTabBarBenef from '../../Components/BottomTabBarBenef';
+import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+import { Link, useRouter } from "expo-router";
+import BottomTabBarBenef from "../../Components/BottomTabBarBenef";
 
 export default function perfilBenef() {
-  const selectedTab = 'perfilBenef';
+  const selectedTab = "perfilBenef";
   const router = useRouter();
 
   return (
@@ -12,13 +12,13 @@ export default function perfilBenef() {
       <Text>Perfil del benef aqui</Text>
       <BottomTabBarBenef selectedTab={selectedTab} />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,   // Asegura que el contenedor ocupe toda la pantalla
-    justifyContent: 'space-between',
+    flex: 1, // Asegura que el contenedor ocupe toda la pantalla
+    justifyContent: "space-between",
     paddingTop: 8,
     paddingBottom: 30,
   },

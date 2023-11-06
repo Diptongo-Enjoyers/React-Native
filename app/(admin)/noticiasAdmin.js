@@ -1,19 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, FlatList, Pressable, Button, Modal, TextInput, TouchableOpacity } from 'react-native';
-import { Link, useRouter } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import BottomTabBarAdmin from '../../Components/BottomTabBarAdmin';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  Pressable,
+  Button,
+  Modal,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import { Link, useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import BottomTabBarAdmin from "../../Components/BottomTabBarAdmin";
 
 export default function noticiasAdmin() {
   const [noticias, setNoticias] = useState([]);
-  const selectedTab = 'noticiasAdmin';
+  const selectedTab = "noticiasAdmin";
   const router = useRouter();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [titulo, setTitulo] = useState('');
-  const [descripcion, setDescripcion] = useState('');
-  const [imagen, setImagen] = useState('');
-  const [userToken, setUserToken] = useState('');
+  const [titulo, setTitulo] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [imagen, setImagen] = useState("");
+  const [userToken, setUserToken] = useState("");
 
   /*
     Recupera el token y las noticias
@@ -23,14 +34,17 @@ export default function noticiasAdmin() {
   */
   useEffect(() => {
     const fetchTokenAndData = async () => {
-      const token = await AsyncStorage.getItem('userToken');
+      const token = await AsyncStorage.getItem("userToken");
       setUserToken(token);
       try {
-        const response = await fetch('https://api-three-kappa-45.vercel.app/news', {
-          headers: {
-            'Authorization': `Bearer ${token}`
+        const response = await fetch(
+          "https://api-three-kappa-45.vercel.app/news",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
 
         const data = await response.json();
         setNoticias(data);
@@ -42,7 +56,6 @@ export default function noticiasAdmin() {
     fetchTokenAndData();
   }, []);
 
-
   /*
     Funcion para crear una nueva noticia
     Se utiliza el token para poder crear la noticia
@@ -52,22 +65,25 @@ export default function noticiasAdmin() {
   */
   const createNewArticle = async () => {
     try {
-      const response = await fetch('https://api-three-kappa-45.vercel.app/news/createNews', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userToken}`
-        },
-        body: JSON.stringify({
-          title: titulo,
-          body: descripcion,
-          image: imagen,
-          date: new Date() // Asumiendo que quieres establecer la fecha actual.
-        })
-      });
+      const response = await fetch(
+        "https://api-three-kappa-45.vercel.app/news/createNews",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify({
+            title: titulo,
+            body: descripcion,
+            image: imagen,
+            date: new Date(), // Asumiendo que quieres establecer la fecha actual.
+          }),
+        }
+      );
 
       if (response.ok) {
-        console.log('Noticia creada exitosamente');
+        console.log("Noticia creada exitosamente");
         setModalVisible(false);
       } else {
         const data = await response.json();
@@ -78,18 +94,20 @@ export default function noticiasAdmin() {
     }
   };
 
-
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Link href={{
-        pathname: "noticiasDetalle",
-        params: {
-          titulo: item.title,
-          autor: item.author,
-          descripcion: item.body,
-          imagen: item.image
-        }
-      }} asChild>
+      <Link
+        href={{
+          pathname: "noticiasDetalle",
+          params: {
+            titulo: item.title,
+            autor: item.author,
+            descripcion: item.body,
+            imagen: item.image,
+          },
+        }}
+        asChild
+      >
         <Pressable>
           <Image source={{ uri: item.image }} style={styles.image} />
         </Pressable>
@@ -102,7 +120,6 @@ export default function noticiasAdmin() {
 
   return (
     <View style={styles.container}>
-
       <Button title="Abrir Modal" onPress={() => setModalVisible(true)} />
       {/* Modal */}
       <Modal
@@ -111,7 +128,8 @@ export default function noticiasAdmin() {
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
-        }}>
+        }}
+      >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <TextInput
@@ -137,17 +155,19 @@ export default function noticiasAdmin() {
               onPress={() => {
                 createNewArticle();
                 setModalVisible(false);
-              }}>
+              }}
+            >
               <Text>Confirmar</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                setTitulo('');
-                setDescripcion('');
-                setImagen('');
+                setTitulo("");
+                setDescripcion("");
+                setImagen("");
                 setModalVisible(false);
-              }}>
+              }}
+            >
               <Text>Cancelar</Text>
             </TouchableOpacity>
           </View>
@@ -178,7 +198,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 200,
     borderRadius: 8,
     marginBottom: 8,
@@ -207,24 +227,24 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     width: 200,
     padding: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   button: {
     backgroundColor: "#2196F3",
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-    margin: 5
+    margin: 5,
   },
 });

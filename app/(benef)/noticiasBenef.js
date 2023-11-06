@@ -1,25 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, FlatList, Pressable } from 'react-native';
-import { Link, useRouter } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import BottomTabBarBenef from '../../Components/BottomTabBarBenef';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  Pressable,
+} from "react-native";
+import { Link, useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import BottomTabBarBenef from "../../Components/BottomTabBarBenef";
 
 export default function noticiasBenef() {
   const [noticias, setNoticias] = useState([]);
-  const selectedTab = 'noticiasBenef';
+  const selectedTab = "noticiasBenef";
   const router = useRouter();
 
   useEffect(() => {
     const fetchNoticias = async () => {
       try {
         // Recupera el token
-        const userToken = await AsyncStorage.getItem('userToken');
+        const userToken = await AsyncStorage.getItem("userToken");
 
-        const response = await fetch('https://api-three-kappa-45.vercel.app/news', {
-          headers: {
-            'Authorization': `Bearer ${userToken}`
+        const response = await fetch(
+          "https://api-three-kappa-45.vercel.app/news",
+          {
+            headers: {
+              Authorization: `Bearer ${userToken}`,
+            },
           }
-        });
+        );
 
         const data = await response.json();
         setNoticias(data);
@@ -33,15 +43,18 @@ export default function noticiasBenef() {
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Link href={{
-        pathname: "noticiasDetalle",
-        params: {
-          titulo: item.title,
-          autor: item.author,
-          descripcion: item.body,
-          imagen: item.image
-        }
-      }} asChild>
+      <Link
+        href={{
+          pathname: "noticiasDetalle",
+          params: {
+            titulo: item.title,
+            autor: item.author,
+            descripcion: item.body,
+            imagen: item.image,
+          },
+        }}
+        asChild
+      >
         <Pressable>
           <Image source={{ uri: item.image }} style={styles.image} />
         </Pressable>
@@ -78,7 +91,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 200,
     borderRadius: 8,
     marginBottom: 8,

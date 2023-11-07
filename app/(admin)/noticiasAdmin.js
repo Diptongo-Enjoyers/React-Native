@@ -12,7 +12,7 @@ import {
 import { Link, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabBarAdmin from "../../Components/BottomTabBarAdmin";
-import { Modal, Button, FormControl, Input, VStack, HStack, Center, NativeBaseProvider } from 'native-base';
+import { Modal, Button, FormControl, Input, VStack, HStack, Center, NativeBaseProvider, TextArea } from 'native-base';
 
 
 export default function noticiasAdmin() {
@@ -135,21 +135,21 @@ export default function noticiasAdmin() {
               <Modal.CloseButton />
               <Modal.Header>Create News</Modal.Header>
               <Modal.Body>
-                <FormControl>
-                  <FormControl.Label>Título</FormControl.Label>
+              <FormControl mb="5" isRequired>
+                  <FormControl.Label style={{ fontSize: 40 }}>Título</FormControl.Label>
                   <Input 
                     value={titulo}
                     onChangeText={setTitulo}
-                    style={styles.input}/>
+                    />
                 </FormControl>
-                <FormControl mt="3">
+                <FormControl mb="5" isRequired>
                   <FormControl.Label>Descripción</FormControl.Label>
                   <Input 
-                    value={descripcion}
-                    onChangeText={setDescripcion}
-                    style={styles.input}/>
+                  value={descripcion}
+                  onChangeText={(text) => setDescripcion(text)}
+                  />
                 </FormControl>
-                <FormControl mt="3">
+                <FormControl mb="5" isRequired>
                   <FormControl.Label>URL de la Imagen</FormControl.Label>
                   <Input 
                     value={imagen}
@@ -159,12 +159,18 @@ export default function noticiasAdmin() {
               </Modal.Body>
               <Modal.Footer>
                 <Button.Group space={2}>
-                  <Button variant="ghost" colorScheme="blueGray" onPress={() => {
+                  <Button 
+                  variant="outline" colorScheme="info" 
+                  width={"50%"} onPress={() => {
                   setModalVisible(false);
                 }}>
                     Cancel
                   </Button>
-                  <Button onPress={() => {
+                  <Button 
+                  variant="solid"
+                  colorScheme="info"
+                  width={"50%"}
+                  onPress={() => {
                   createNewArticle();
                   setModalVisible(false);
                 }}>
@@ -230,13 +236,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    width: 200,
-    padding: 10,
-    marginBottom: 10,
   },
   button: {
     backgroundColor: "#e91e63",

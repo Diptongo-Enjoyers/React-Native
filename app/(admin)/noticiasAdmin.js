@@ -110,11 +110,12 @@ export default function noticiasAdmin() {
       >
         <Pressable>
           <Image source={{ uri: item.image }} style={styles.image} />
-        </Pressable>
-      </Link>
-      <Text style={styles.titulo}>{item.title}</Text>
+          <Text style={styles.titulo}>{item.title}</Text>
       <Text style={styles.descripcion}>{item.author}</Text>
       <Text style={styles.descripcion}>{item.body}</Text>
+        </Pressable>
+      </Link>
+      
     </View>
   );
 
@@ -195,9 +196,10 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: "#F0EDED",
     borderRadius: 8,
     marginBottom: 8,
+    marginHorizontal: 8,
     padding: 16,
     elevation: 4,
   },

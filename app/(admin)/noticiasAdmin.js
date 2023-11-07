@@ -12,7 +12,7 @@ import {
 import { Link, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabBarAdmin from "../../Components/BottomTabBarAdmin";
-import { Modal, Button, VStack, HStack, Center, NativeBaseProvider } from 'native-base';
+import { Modal, Button, FormControl, Input, VStack, HStack, Center, NativeBaseProvider } from 'native-base';
 
 
 export default function noticiasAdmin() {
@@ -135,28 +135,27 @@ export default function noticiasAdmin() {
               <Modal.CloseButton />
               <Modal.Header>Create News</Modal.Header>
               <Modal.Body>
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <TextInput
-                    placeholder="Título"
+                <FormControl>
+                  <FormControl.Label>Título</FormControl.Label>
+                  <Input 
                     value={titulo}
                     onChangeText={setTitulo}
-                    style={styles.input}
-                  />
-                  <TextInput
-                    placeholder="Descripción"
+                    style={styles.input}/>
+                </FormControl>
+                <FormControl mt="3">
+                  <FormControl.Label>Descripción</FormControl.Label>
+                  <Input 
                     value={descripcion}
                     onChangeText={setDescripcion}
-                    style={styles.input}
-                  />
-                  <TextInput
-                    placeholder="URL de la Imagen"
+                    style={styles.input}/>
+                </FormControl>
+                <FormControl mt="3">
+                  <FormControl.Label>URL de la Imagen</FormControl.Label>
+                  <Input 
                     value={imagen}
                     onChangeText={setImagen}
-                    style={styles.input}
-                  />
-                </View>
-              </View>
+                    style={styles.input}/>
+                </FormControl>
               </Modal.Body>
               <Modal.Footer>
                 <Button.Group space={2}>

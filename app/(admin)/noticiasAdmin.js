@@ -6,14 +6,14 @@ import {
   StyleSheet,
   FlatList,
   Pressable,
-  Button,
-  Modal,
   TextInput,
   TouchableOpacity,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabBarAdmin from "../../Components/BottomTabBarAdmin";
+import { Modal, Button, FormControl, Input, VStack, HStack, Center, NativeBaseProvider, TextArea } from 'native-base';
+
 
 export default function noticiasAdmin() {
   const [noticias, setNoticias] = useState([]);
@@ -119,67 +119,71 @@ export default function noticiasAdmin() {
   );
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={noticias}
-        renderItem={renderItem}
-        keyExtractor={(item) => item._id}
-      />
+    <NativeBaseProvider>
+      <View style={styles.container}>
+        <FlatList
+          data={noticias}
+          renderItem={renderItem}
+          keyExtractor={(item) => item._id}
+        />
 
-      <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
-        <Text style={styles.addButtonText}>+</Text>
-        {/* Modal */}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <TextInput
-                placeholder="Título"
-                value={titulo}
-                onChangeText={setTitulo}
-                style={styles.input}
-              />
-              <TextInput
-                placeholder="Descripción"
-                value={descripcion}
-                onChangeText={setDescripcion}
-                style={styles.input}
-              />
-              <TextInput
-                placeholder="URL de la Imagen"
-                value={imagen}
-                onChangeText={setImagen}
-                style={styles.input}
-              />
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
+        <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
+          <Text style={styles.addButtonText}>+</Text>
+          {/* Modal de native-base*/}
+            <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)} size="full" animationPreset="slide">
+            <Modal.Content maxWidth="100%" maxHeight="100%" flex={1}>
+              <Modal.CloseButton />
+              <Modal.Header>Create News</Modal.Header>
+              <Modal.Body>
+              <FormControl mb="5" isRequired>
+                  <FormControl.Label style={{ fontSize: 40 }}>Título</FormControl.Label>
+                  <Input 
+                    value={titulo}
+                    onChangeText={setTitulo}
+                    />
+                </FormControl>
+                <FormControl mb="5" isRequired>
+                  <FormControl.Label>Descripción</FormControl.Label>
+                  <Input 
+                  value={descripcion}
+                  onChangeText={(text) => setDescripcion(text)}
+                  />
+                </FormControl>
+                <FormControl mb="5" isRequired>
+                  <FormControl.Label>URL de la Imagen</FormControl.Label>
+                  <Input 
+                    value={imagen}
+                    onChangeText={setImagen}
+                    style={styles.input}/>
+                </FormControl>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button.Group space={2}>
+                  <Button 
+                  variant="outline" colorScheme="info" 
+                  width={"50%"} onPress={() => {
+                  setModalVisible(false);
+                }}>
+                    Cancel
+                  </Button>
+                  <Button 
+                  variant="solid"
+                  colorScheme="info"
+                  width={"50%"}
+                  onPress={() => {
                   createNewArticle();
                   setModalVisible(false);
                 }}>
-                <Text style={styles.buttonText}>Confirmar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  setTitulo('');
-                  setDescripcion('');
-                  setImagen('');
-                  setModalVisible(false);
-                }}>
-                <Text style={styles.buttonText}>Cancelar</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-      </TouchableOpacity >
-      <BottomTabBarAdmin selectedTab={selectedTab} />
-    </View>
+                    Save
+                  </Button>
+                </Button.Group>
+              </Modal.Footer>
+            </Modal.Content>
+          </Modal>
+        </TouchableOpacity >
+        <BottomTabBarAdmin selectedTab={selectedTab} />
+      </View>
+    </NativeBaseProvider>
   );
 }
 
@@ -232,13 +236,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    width: 200,
-    padding: 10,
-    marginBottom: 10,
   },
   button: {
     backgroundColor: "#e91e63",

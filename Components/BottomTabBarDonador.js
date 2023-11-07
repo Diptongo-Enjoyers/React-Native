@@ -17,7 +17,7 @@ export default function BottomTabBarDonador({ selectedTab }) {
         onPress={() => handleTabSelect("/donDonador")}
       >
         <MaterialCommunityIcons
-          name="newspaper"
+          name="heart"
           size={24}
           color={selectedTab === "donDonador" ? "#e91e63" : "gray"}
         />

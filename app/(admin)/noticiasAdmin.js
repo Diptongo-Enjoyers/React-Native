@@ -8,11 +8,14 @@ import {
   Pressable,
   TextInput,
   TouchableOpacity,
+  SwipeView,
+  Animated,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabBarAdmin from "../../Components/BottomTabBarAdmin";
 import { Modal, Button, FormControl, Input, VStack, HStack, Center, NativeBaseProvider, TextArea } from 'native-base';
+import { Swipeable } from "react-native-gesture-handler";
 
 
 export default function noticiasAdmin() {
@@ -94,29 +97,75 @@ export default function noticiasAdmin() {
     }
   };
 
+  const deleteNews = async (newsId) => {
+    const token = await AsyncStorage.getItem("userToken"); // Retrieve the stored token
+    try {
+      // Perform the DELETE request
+      const response = await fetch(`https://api-three-kappa-45.vercel.app/news/${newsId}`, {
+        method: 'DELETE', // Specify the method to use
+        headers: {
+          'Authorization': `Bearer ${token}`, // Use the token for authorization
+          'Content-Type': 'application/json' // Set the content type
+        },
+      });
+  
+      if (response.ok) {
+        // If the delete was successful
+        const newNoticias = noticias.filter((item) => item._id !== newsId); // Remove the news item from state
+        setNoticias(newNoticias); // Update the state with the new noticias array
+        console.log('News deleted successfully');
+      } else {
+        // If there was an error with the request
+        const errorData = await response.json(); // Optionally capture and log the error response from the server
+        console.error('Failed to delete the news:', errorData);
+      }
+    } catch (error) {
+      // If there was an error sending the request
+      console.error('Error deleting news:', error);
+    }
+  };
+
+  const rightSwipe = (progress, dragX, item) => {
+    const scale = dragX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [1, 0],
+      extrapolate: "clamp",
+    });
+    return (
+      <TouchableOpacity onPress={() => deleteNews(item._id)}>
+        <View style={styles.deleteBox}>
+          <Animated.Text style={{ transform: [{ scale }] }}>
+            Delete
+          </Animated.Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   const renderItem = ({ item }) => (
+    <Swipeable renderRightActions={(progress, dragX) => rightSwipe(progress, dragX, item)}>
     <View style={styles.card}>
-      <Link
-        href={{
-          pathname: "noticiasDetalle",
-          params: {
-            titulo: item.title,
-            autor: item.author,
-            descripcion: item.body,
-            imagen: item.image,
-          },
-        }}
-        asChild
-      >
-        <Pressable>
-          <Image source={{ uri: item.image }} style={styles.image} />
-          <Text style={styles.titulo}>{item.title}</Text>
-      <Text style={styles.descripcion}>{item.author}</Text>
-      <Text style={styles.descripcion}>{item.body}</Text>
-        </Pressable>
-      </Link>
-      
-    </View>
+        <Link
+          href={{
+            pathname: "noticiasDetalle",
+            params: {
+              titulo: item.title,
+              autor: item.author,
+              descripcion: item.body,
+              imagen: item.image,
+            },
+          }}
+          asChild
+        >
+          <Pressable>
+            <Image source={{ uri: item.image }} style={styles.image} />
+            <Text style={styles.titulo}>{item.title}</Text>
+        <Text style={styles.descripcion}>{item.author}</Text>
+        <Text style={styles.descripcion}>{item.body}</Text>
+          </Pressable>
+        </Link> 
+      </View>
+    </Swipeable>
   );
 
   return (
@@ -271,6 +320,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 24,
     fontWeight: 'bold'
-  }
+  },
+  deleteBox: {
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
+    height: "100%",
+  },
 });
 

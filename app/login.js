@@ -58,7 +58,7 @@ const login = () => {
         const userData = await userResponse.json();
         console.log(userData);
         if (userData.clearance === ADMIN_CLEARANCE) {
-          router.replace("/noticiasAdmin"); // Ajusta a la ruta adecuada para administradores
+          router.replace("/noticiasAdmin");
         } else {
           router.replace("/noticiasBenef");
         }

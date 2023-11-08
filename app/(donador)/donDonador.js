@@ -1,18 +1,20 @@
 import React from 'react';
 import { View, StyleSheet, SafeAreaView, Text } from 'react-native';
 import { Button, VStack, NativeBaseProvider } from 'native-base';
+import { useRouter } from "expo-router";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import BottomTabBarDonador from '../../Components/BottomTabBarDonador';
 
 export default function DonDonador() {
   const selectedTab = "donDonador";
+  const router = useRouter();
 
   return (
     <NativeBaseProvider>
       <SafeAreaView style={styles.container}>
         <VStack space={4} alignItems="center" style={styles.vstack}>
 
-          <Text style={styles.title}>Donación de alimento</Text>
+          <Text style={styles.title}>Donación de alimentos</Text>
           <View style={styles.buttonIconWrapper}>
             <Button
               style={styles.button}
@@ -32,7 +34,7 @@ export default function DonDonador() {
             <Button
               style={styles.button}
               variant="solid"
-              onPress={() => { }}
+              onPress={() => router.replace("/moneDonador")}
             >
               <MaterialCommunityIcons
                 name="currency-usd"

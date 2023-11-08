@@ -48,11 +48,12 @@ export default function MoneyDonator() {
           keyboardType="numeric"
           value={customAmount}
           onChangeText={handleCustomAmountChange}
-          placeholder="..."
+          placeholder=""
           placeholderTextColor="#A6A6A6"
           style={styles.roundedInput}
           textAlign="center"
           fontSize="lg"
+          InputLeftElement={<Text style={styles.currencyPrefix}>$</Text>}
         />
         <Button onPress={handleDonate} style={styles.donateButton}>
           Donar
@@ -101,10 +102,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   roundedInput: {
-    minWidth: 100,
-    maxWidth: 100,
+    minWidth: 75,
+    maxWidth: 75,
     height: 40,
     fontSize: 20,
     textAlign: 'center',
+  },
+  currencyPrefix: {
+    fontSize: 20,
+    lineHeight: 25,
+    color: '#000',
+    marginLeft: 12,
   },
 });

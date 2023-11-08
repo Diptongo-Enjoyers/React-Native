@@ -12,7 +12,7 @@ export default function DonDonador() {
       <SafeAreaView style={styles.container}>
         <VStack space={4} alignItems="center" style={styles.vstack}>
 
-          <Text style={styles.title}>Donación monetaria</Text>
+          <Text style={styles.title}>Donación de alimento</Text>
           <View style={styles.buttonIconWrapper}>
             <Button
               style={styles.button}

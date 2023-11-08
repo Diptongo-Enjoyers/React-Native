@@ -29,6 +29,12 @@ export default function noticiasAdmin() {
   const [imagen, setImagen] = useState("");
   const [userToken, setUserToken] = useState("");
 
+  function formatDate(dateString) {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(dateString).toLocaleDateString('en-GB', options);
+}
+
+
   /*
     Recupera el token y las noticias
     Se utiliza AsyncStorage para almacenar el token con la funcion getItem y se guarda el token en la variable userToken
@@ -160,8 +166,8 @@ export default function noticiasAdmin() {
           <Pressable>
             <Image source={{ uri: item.image }} style={styles.image} />
             <Text style={styles.titulo}>{item.title}</Text>
-        <Text style={styles.descripcion}>{item.author}</Text>
-        <Text style={styles.descripcion}>{item.body}</Text>
+        <Text style={styles.descripcion}>{formatDate(item.date)}</Text>
+
           </Pressable>
         </Link> 
       </View>

@@ -21,6 +21,7 @@ import {
   Box,
   Heading,
   Fab,
+  IconButton,
 } from "native-base";
 
 const clearance = (clearance) => {
@@ -68,9 +69,24 @@ export default function perfilBenef() {
     <NativeBaseProvider>
       <View style={styles.container}>
         <VStack space={2} m={4} flex={1}>
-          <Heading bold size="xl">
-            Perfil
-          </Heading>
+          <HStack justifyContent="space-between" p={0} m={0}>
+            <Heading bold size="xl">
+              Perfil
+            </Heading>
+            <IconButton
+              m={0}
+              p={0}
+              icon={
+                <Icon
+                  as={MaterialIcons}
+                  name="settings"
+                  size={"2xl"}
+                  color={"gray.500"}
+                />
+              }
+              onPress={() => router.replace("configuracionBenef")}
+            />
+          </HStack>
           <Divider my={2} />
           <HStack space={2} alignItems="center">
             <Avatar

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Button, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, Button, TouchableOpacity, ScrollView } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Icon from 'react-native-vector-icons/Ionicons'; // Choose appropriate icon set
 
@@ -10,12 +10,18 @@ const SingleHouseScreen = () => {
 
   return (
     <View style={styles.container}>
+      {/* Header Bar */}
+    <View style={styles.headerBar}>
       <TouchableOpacity onPress={back} style={styles.backButton}>
-      <Icon name="arrow-back" size={35} color="#0093F2" />
-    </TouchableOpacity>
+        <Icon name="arrow-back" size={35} color="#0093F2" />
+      </TouchableOpacity>
+      {/* Add other header elements if needed */}
+    </View>
+      <ScrollView>
       <Image source={{ uri: imagen }} style={styles.imagen} />
       <Text style={styles.titulo}>{titulo}</Text>
       <Text style={styles.descripcion}>{descripcion}</Text>
+      </ScrollView>
     </View>
   );
 };
@@ -24,6 +30,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+  },
+  headerBar: {
+    backgroundColor: '#fff',
+    paddingTop: 50, // Adjust for status bar height if necessary
+    paddingHorizontal: 10,
+    // Add shadow or elevation if you want to give it depth
   },
   imagen: {
     width: "100%",
@@ -43,10 +55,8 @@ const styles = StyleSheet.create({
   backButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
-    position: 'absolute', // Position absolutely within the parent view
-    top: 10,             // Adjust top and left as needed for your layout
-    left: 10,            // This provides some space from the corners
+    padding: 5,
+    position: 'absolute', // Position absolutely within the parent view             // Adjust top and left as needed for your layout
   },  
 });
 

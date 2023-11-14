@@ -167,6 +167,7 @@ const fetchTokenAndData = async () => {
               autor: item.author,
               descripcion: item.body,
               imagen: item.image,
+              fecha: formatDate(item.date),
             },
           }}
           asChild

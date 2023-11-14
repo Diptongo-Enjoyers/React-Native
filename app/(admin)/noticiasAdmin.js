@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   SwipeView,
   Animated,
+  RefreshControl,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -28,6 +29,7 @@ export default function noticiasAdmin() {
   const [descripcion, setDescripcion] = useState("");
   const [imagen, setImagen] = useState("");
   const [userToken, setUserToken] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
   function formatDate(dateString) {
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -35,14 +37,7 @@ export default function noticiasAdmin() {
 }
 
 
-  /*
-    Recupera el token y las noticias
-    Se utiliza AsyncStorage para almacenar el token con la funcion getItem y se guarda el token en la variable userToken
-    Se utiliza la funcion fetch para obtener las noticias
-    Se utiliza el token para poder acceder a las noticias
-  */
-  useEffect(() => {
-    const fetchTokenAndData = async () => {
+const fetchTokenAndData = async () => {
       const token = await AsyncStorage.getItem("userToken");
       setUserToken(token);
       try {
@@ -62,8 +57,21 @@ export default function noticiasAdmin() {
       }
     };
 
+  /*
+    Recupera el token y las noticias
+    Se utiliza AsyncStorage para almacenar el token con la funcion getItem y se guarda el token en la variable userToken
+    Se utiliza la funcion fetch para obtener las noticias
+    Se utiliza el token para poder acceder a las noticias
+  */
+  useEffect(() => {
     fetchTokenAndData();
   }, []);
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    await fetchTokenAndData();
+    setRefreshing(false);
+  }, []); 
 
   /*
     Funcion para crear una nueva noticia
@@ -181,6 +189,11 @@ export default function noticiasAdmin() {
           data={noticias}
           renderItem={renderItem}
           keyExtractor={(item) => item._id}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh} />
+          }
         />
 
         <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
@@ -188,7 +201,15 @@ export default function noticiasAdmin() {
           {/* Modal de native-base*/}
             <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)} size="full" animationPreset="slide">
             <Modal.Content maxWidth="100%" maxHeight="100%" flex={1}>
-              <Modal.CloseButton />
+              <Modal.CloseButton 
+                // delete data of modal
+                onPress={() => {
+                  setTitulo("");
+                  setDescripcion("");
+                  setImagen("");
+                  setModalVisible(false);
+                }}
+              />
               <Modal.Header>Create News</Modal.Header>
               <Modal.Body>
               <FormControl mb="5" isRequired>
@@ -218,6 +239,9 @@ export default function noticiasAdmin() {
                   <Button 
                   variant="outline" colorScheme="info" 
                   width={"50%"} onPress={() => {
+                  setTitulo("");
+                  setDescripcion("");
+                  setImagen("");
                   setModalVisible(false);
                 }}>
                     Cancel

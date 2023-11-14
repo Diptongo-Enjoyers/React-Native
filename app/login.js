@@ -8,9 +8,10 @@ import {
   StatusBar,
   Keyboard,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ADMIN_CLEARANCE = 0;
@@ -73,65 +74,70 @@ const login = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <LinearGradient
-        colors={["#FFF9E0", "#FFEBEB"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.container}
-      >
-        <Image source={require("../assets/logo.png")} style={styles.logo} />
-        <Text style={styles.titulo}>Login</Text>
-        <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="ejemplo@gmail.com"
-          onChangeText={setEmail}
-          value={email}
-        />
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          placeholder="Contraseña"
-          onChangeText={setPassword}
-          value={password}
-        />
-
-        {errorMessage && (
-          <Text style={{ color: "red", marginTop: 10 }}>{errorMessage}</Text>
-        )}
-
-        <Text style={styles.contraOlvido}>¿Olvidaste tu contraseña?</Text>
-
-        <TouchableOpacity style={styles.buttonContainer} onPress={authenticate}>
-          <LinearGradient
-            colors={["#FF7F39", "#E74428"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Iniciar sesión</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.registerButtonContainer}
-          onPress={() => router.replace("/register")}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <LinearGradient
+          colors={["#FFF9E0", "#FFEBEB"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.container}
         >
-          <LinearGradient
-            colors={["#FF9755", "#FF7F39"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.registerButton}
-          >
-            <Text style={styles.registerButtonText}>Registrate aquí</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+          <Image source={require("../assets/logo.png")} style={styles.logo} />
+          <Text style={styles.titulo}>Login</Text>
+          <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
 
-        <StatusBar style="auto" />
-      </LinearGradient>
-    </TouchableWithoutFeedback>
+          <TextInput
+            style={styles.input}
+            placeholder="ejemplo@gmail.com"
+            onChangeText={setEmail}
+            value={email}
+          />
+          <TextInput
+            secureTextEntry={true}
+            style={styles.input}
+            placeholder="Contraseña"
+            onChangeText={setPassword}
+            value={password}
+          />
+
+          {errorMessage && (
+            <Text style={{ color: "red", marginTop: 10 }}>{errorMessage}</Text>
+          )}
+
+          <Text style={styles.contraOlvido}>¿Olvidaste tu contraseña?</Text>
+
+          <TouchableOpacity style={styles.buttonContainer} onPress={authenticate}>
+            <LinearGradient
+              colors={["#FF7F39", "#E74428"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Iniciar sesión</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.registerButtonContainer}
+            onPress={() => router.replace("/register")}
+          >
+            <LinearGradient
+              colors={["#FF9755", "#FF7F39"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.registerButton}
+            >
+              <Text style={styles.registerButtonText}>Registrate aquí</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <StatusBar style="auto" />
+        </LinearGradient>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 

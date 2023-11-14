@@ -39,8 +39,8 @@ const clearance = (clearance) => {
   }
 };
 
-export default function editarPerfilBenef() {
-  const selectedTab = "editarPerfilBenef";
+export default function editarPerfilDonador() {
+  const selectedTab = "editarPerfilDonador";
   const router = useRouter();
   const [user, setUser] = useState({});
   useEffect(() => {
@@ -231,7 +231,7 @@ export default function editarPerfilBenef() {
                     variant="outline"
                     colorScheme="info"
                     width={"50%"}
-                    onPress={() => router.replace("/perfilBenef")}
+                    onPress={() => router.replace("/perfilDonador")}
                   >
                     Cancelar
                   </Button>
@@ -241,7 +241,7 @@ export default function editarPerfilBenef() {
                     width={"50%"}
                     onPress={() => {
                       updateUserInformation();
-                      router.replace("/perfilBenef");
+                      router.replace("/perfilDonador");
                     }}
                   >
                     Guardar

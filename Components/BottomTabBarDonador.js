@@ -14,6 +14,43 @@ export default function BottomTabBarDonador({ selectedTab }) {
     <View style={styles.tabContainer}>
       <TouchableOpacity
         style={styles.tab}
+        onPress={() => handleTabSelect("/perfilDonador")}
+      >
+        <MaterialCommunityIcons
+          name="account"
+          size={24}
+          color={selectedTab === "perfilDonador" ? "#e91e63" : "gray"}
+        />
+        <Text
+          style={[
+            styles.tabText,
+            selectedTab === "perfilDonador" ? styles.activeTabText : {},
+          ]}
+        >
+          Perfil
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.tab}
+        onPress={() => handleTabSelect("/noticiasDonador")}
+      >
+        <MaterialCommunityIcons
+          name="newspaper"
+          size={24}
+          color={selectedTab === "noticiasDonador" ? "#e91e63" : "gray"}
+        />
+        <Text
+          style={[
+            styles.tabText,
+            selectedTab === "noticiasDonador" ? styles.activeTabText : {},
+          ]}
+        >
+          Noticias
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.tab}
         onPress={() => handleTabSelect("/donacionDonador")}
       >
         <MaterialCommunityIcons

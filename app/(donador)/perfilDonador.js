@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
-import BottomTabBarBenef from "../../Components/BottomTabBarBenef";
+import BottomTabBarDonador from "../../Components/BottomTabBarDonador";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   FontAwesome,
@@ -39,8 +39,8 @@ const clearance = (clearance) => {
   }
 };
 
-export default function perfilBenef() {
-  const selectedTab = "perfilBenef";
+export default function perfilDonador() {
+  const selectedTab = "perfilDonador";
   const router = useRouter();
   const [user, setUser] = useState({});
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function perfilBenef() {
                   color={"gray.500"}
                 />
               }
-              onPress={() => router.replace("configuracionBenef")}
+              onPress={() => router.replace("configuracionDonador")}
             />
           </HStack>
           <Divider my={2} />
@@ -158,10 +158,10 @@ export default function perfilBenef() {
               <Icon color="white" as={MaterialIcons} name="edit" size="4" />
             }
             label="Editar perfil"
-            onPress={() => router.replace("editarPerfilBenef")}
+            onPress={() => router.replace("editarPerfilDonador")}
           />
         </VStack>
-        <BottomTabBarBenef selectedTab={selectedTab} />
+        <BottomTabBarDonador selectedTab={selectedTab} />
       </View>
     </NativeBaseProvider>
   );

@@ -9,11 +9,11 @@ import {
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import BottomTabBarBenef from "../../Components/BottomTabBarBenef";
+import BottomTabBarDonador from "../../Components/BottomTabBarDonador";
 
-export default function noticiasBenef() {
+export default function noticiasDonador() {
   const [noticias, setNoticias] = useState([]);
-  const selectedTab = "noticiasBenef";
+  const selectedTab = "noticiasDonador";
   const router = useRouter();
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export default function noticiasBenef() {
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
       />
-      <BottomTabBarBenef selectedTab={selectedTab} />
+      <BottomTabBarDonador selectedTab={selectedTab} />
     </View>
   );
 }

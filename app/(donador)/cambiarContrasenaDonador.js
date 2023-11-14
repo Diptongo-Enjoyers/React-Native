@@ -47,8 +47,8 @@ const clearance = (clearance) => {
   }
 };
 
-export default function cambiarContrasenaBenef() {
-  const selectedTab = "cambiarContrasenaBenef";
+export default function cambiarContrasenaDonador() {
+  const selectedTab = "cambiarContrasenaDonador";
   const router = useRouter();
   const [show, setShow] = useState(false);
   const [contrasenaActual, setContrasenaActual] = useState("");
@@ -80,7 +80,7 @@ export default function cambiarContrasenaBenef() {
                       color={"gray.500"}
                     />
                   }
-                  onPress={() => router.replace("configuracionBenef")}
+                  onPress={() => router.replace("configuracionDonador")}
                 />
               </HStack>
               <Divider my={2} />

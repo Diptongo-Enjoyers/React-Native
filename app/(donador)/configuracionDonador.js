@@ -47,8 +47,8 @@ const clearance = (clearance) => {
   }
 };
 
-export default function configuracionBenef() {
-  const selectedTab = "configuracionBenef";
+export default function configuracionDonador() {
+  const selectedTab = "configuracionDonador";
   const router = useRouter();
   const [logoutAlert, setLogoutAlert] = useState("");
   const logoutUser = async () => {
@@ -102,7 +102,7 @@ export default function configuracionBenef() {
                       color={"gray.500"}
                     />
                   }
-                  onPress={() => router.replace("perfilBenef")}
+                  onPress={() => router.replace("perfilDonador")}
                 />
               </HStack>
               <Divider my={2} />
@@ -115,7 +115,7 @@ export default function configuracionBenef() {
                     leftIcon={
                       <Icon as={MaterialIcons} name="lock" size={"sm"} />
                     }
-                    onPress={() => router.replace("cambiarContrasenaBenef")}
+                    onPress={() => router.replace("cambiarContrasenaDonador")}
                   >
                     Cambiar contraseña
                   </Button>

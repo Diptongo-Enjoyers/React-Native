@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   StatusBar,
+  KeyboardAvoidingView
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link, router, useRouter } from "expo-router";
@@ -49,98 +50,103 @@ const Register = () => {
     }
   };
   return (
-    <LinearGradient
-      colors={["#FFF9E0", "#FFEBEB"]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.container}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
     >
-      <Image source={require("../assets/logo.png")} style={styles.logo} />
-      <Text style={styles.titulo}>Registro</Text>
-
-      <View style={styles.optionsContainer}>
-        <TouchableOpacity
-          style={[
-            styles.optionButton,
-            selectedOption === "beneficiario" && styles.selectedButton,
-          ]}
-          onPress={() => setSelectedOption("beneficiario")}
-        >
-          <Text
-            style={[
-              styles.optionButtonText,
-              selectedOption === "beneficiario" && styles.selectedButtonText,
-            ]}
-          >
-            Beneficiario
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.optionButton,
-            selectedOption === "Donador" && styles.selectedButton,
-          ]}
-          onPress={() => setSelectedOption("Donador")}
-        >
-          <Text
-            style={[
-              styles.optionButtonText,
-              selectedOption === "Donador" && styles.selectedButtonText,
-            ]}
-          >
-            Donador
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Alias"
-        onChangeText={setAlias}
-        value={alias}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="ejemplo@gmail.com"
-        onChangeText={setEmail}
-        value={email}
-      />
-      <TextInput
-        secureTextEntry={true}
-        style={styles.input}
-        placeholder="Contraseña"
-        onChangeText={setPassword}
-        value={password}
-      />
-
-      <TouchableOpacity style={styles.buttonContainer} onPress={registerUser}>
-        <LinearGradient
-          colors={["#FF7F39", "#E74428"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Registarse</Text>
-        </LinearGradient>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.loginButtonContainer}
-        onPress={() => router.replace("/login")}
+      <LinearGradient
+        colors={["#FFF9E0", "#FFEBEB"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.container}
       >
-        <LinearGradient
-          colors={["#FF9755", "#FF7F39"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.loginButton}
-        >
-          <Text style={styles.loginButtonText}>Inicia sesión aquí</Text>
-        </LinearGradient>
-      </TouchableOpacity>
+        <Image source={require("../assets/logo.png")} style={styles.logo} />
+        <Text style={styles.titulo}>Registro</Text>
 
-      <StatusBar style="auto" />
-    </LinearGradient>
+        <View style={styles.optionsContainer}>
+          <TouchableOpacity
+            style={[
+              styles.optionButton,
+              selectedOption === "beneficiario" && styles.selectedButton,
+            ]}
+            onPress={() => setSelectedOption("beneficiario")}
+          >
+            <Text
+              style={[
+                styles.optionButtonText,
+                selectedOption === "beneficiario" && styles.selectedButtonText,
+              ]}
+            >
+              Beneficiario
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.optionButton,
+              selectedOption === "Donador" && styles.selectedButton,
+            ]}
+            onPress={() => setSelectedOption("Donador")}
+          >
+            <Text
+              style={[
+                styles.optionButtonText,
+                selectedOption === "Donador" && styles.selectedButtonText,
+              ]}
+            >
+              Donador
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Alias"
+          onChangeText={setAlias}
+          value={alias}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="ejemplo@gmail.com"
+          onChangeText={setEmail}
+          value={email}
+        />
+        <TextInput
+          secureTextEntry={true}
+          style={styles.input}
+          placeholder="Contraseña"
+          onChangeText={setPassword}
+          value={password}
+        />
+
+        <TouchableOpacity style={styles.buttonContainer} onPress={registerUser}>
+          <LinearGradient
+            colors={["#FF7F39", "#E74428"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Registarse</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.loginButtonContainer}
+          onPress={() => router.replace("/login")}
+        >
+          <LinearGradient
+            colors={["#FF9755", "#FF7F39"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.loginButton}
+          >
+            <Text style={styles.loginButtonText}>Inicia sesión aquí</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+
+        <StatusBar style="auto" />
+      </LinearGradient>
+    </KeyboardAvoidingView>
   );
 };
 

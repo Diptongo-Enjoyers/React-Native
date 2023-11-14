@@ -5,8 +5,8 @@ import { useRouter } from "expo-router";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import BottomTabBarDonador from '../../Components/BottomTabBarDonador';
 
-export default function DonDonador() {
-  const selectedTab = "donDonador";
+export default function DonacionDonador() {
+  const selectedTab = "donacionDonador";
   const router = useRouter();
 
   return (

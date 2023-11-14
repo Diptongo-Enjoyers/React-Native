@@ -14,17 +14,17 @@ export default function BottomTabBarDonador({ selectedTab }) {
     <View style={styles.tabContainer}>
       <TouchableOpacity
         style={styles.tab}
-        onPress={() => handleTabSelect("/donDonador")}
+        onPress={() => handleTabSelect("/donacionDonador")}
       >
         <MaterialCommunityIcons
           name="heart"
           size={24}
-          color={selectedTab === "donDonador" ? "#e91e63" : "gray"}
+          color={selectedTab === "donacionDonador" ? "#e91e63" : "gray"}
         />
         <Text
           style={[
             styles.tabText,
-            selectedTab === "donDonador" ? styles.activeTabText : {},
+            selectedTab === "donacionDonador" ? styles.activeTabText : {},
           ]}
         >
           Donador

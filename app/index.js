@@ -15,7 +15,7 @@ export default function Page() {
         <Link style={styles.subtitle} href="/noticiasBenef">
           Benef
         </Link>
-        <Link style={styles.subtitle} href="/donDonador">
+        <Link style={styles.subtitle} href="/donacionDonador">
           Donador
         </Link>
       </View>

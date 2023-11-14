@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { NativeBaseProvider, Button, Input } from 'native-base';
 
-export default function MoneyDonator() {
+export default function MoneDonador() {
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState('');
 

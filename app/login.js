@@ -61,7 +61,7 @@ const login = () => {
         if (userData.clearance === ADMIN_CLEARANCE) {
           router.replace("/noticiasAdmin");
         } else {
-          router.replace("/noticiasBenef");
+          router.replace("/noticiasDonador");
         }
       } else {
         console.error("Error al obtener información del usuario");

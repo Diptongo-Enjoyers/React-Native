@@ -16,6 +16,11 @@ export default function noticiasDonador() {
   const selectedTab = "noticiasDonador";
   const router = useRouter();
 
+  function formatDate(dateString) {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(dateString).toLocaleDateString('en-GB', options);
+}
+
   useEffect(() => {
     const fetchNoticias = async () => {
       try {
@@ -51,17 +56,17 @@ export default function noticiasDonador() {
             autor: item.author,
             descripcion: item.body,
             imagen: item.image,
+            fecha: formatDate(item.date),
           },
         }}
         asChild
       >
         <Pressable>
           <Image source={{ uri: item.image }} style={styles.image} />
-        </Pressable>
-      </Link>
       <Text style={styles.titulo}>{item.title}</Text>
-      <Text style={styles.descripcion}>{item.author}</Text>
-      <Text style={styles.descripcion}>{item.body}</Text>
+      <Text style={styles.descripcion}>{formatDate(item.date)}</Text>
+      </Pressable>
+      </Link>
     </View>
   );
 

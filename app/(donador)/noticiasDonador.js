@@ -6,6 +6,7 @@ import {
   StyleSheet,
   FlatList,
   Pressable,
+  RefreshControl,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -15,31 +16,44 @@ export default function noticiasDonador() {
   const [noticias, setNoticias] = useState([]);
   const selectedTab = "noticiasDonador";
   const router = useRouter();
+  const [refreshing, setRefreshing] = useState(false);
+
+
+  function formatDate(dateString) {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(dateString).toLocaleDateString('en-GB', options);
+}
+
+const fetchNoticias = async () => {
+  try {
+    // Recupera el token
+    const userToken = await AsyncStorage.getItem("userToken");
+
+    const response = await fetch(
+      "https://api-three-kappa-45.vercel.app/news",
+      {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+    setNoticias(data);
+  } catch (error) {
+    console.error("Error al obtener las noticias:", error);
+  }
+};
 
   useEffect(() => {
-    const fetchNoticias = async () => {
-      try {
-        // Recupera el token
-        const userToken = await AsyncStorage.getItem("userToken");
-
-        const response = await fetch(
-          "https://api-three-kappa-45.vercel.app/news",
-          {
-            headers: {
-              Authorization: `Bearer ${userToken}`,
-            },
-          }
-        );
-
-        const data = await response.json();
-        setNoticias(data);
-      } catch (error) {
-        console.error("Error al obtener las noticias:", error);
-      }
-    };
-
     fetchNoticias();
   }, []);
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    await fetchNoticias();
+    setRefreshing(false);
+  }, []); 
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
@@ -51,17 +65,17 @@ export default function noticiasDonador() {
             autor: item.author,
             descripcion: item.body,
             imagen: item.image,
+            fecha: formatDate(item.date),
           },
         }}
         asChild
       >
         <Pressable>
           <Image source={{ uri: item.image }} style={styles.image} />
-        </Pressable>
-      </Link>
       <Text style={styles.titulo}>{item.title}</Text>
-      <Text style={styles.descripcion}>{item.author}</Text>
-      <Text style={styles.descripcion}>{item.body}</Text>
+      <Text style={styles.descripcion}>{formatDate(item.date)}</Text>
+      </Pressable>
+      </Link>
     </View>
   );
 
@@ -71,6 +85,11 @@ export default function noticiasDonador() {
         data={noticias}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh} />
+        }
       />
       <BottomTabBarDonador selectedTab={selectedTab} />
     </View>

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, Dimensions, TextInput, StyleSheet } from 'react-native';
-import { Table, Row, Rows } from 'react-native-table-component';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, TouchableOpacity, Text, TextInput, StyleSheet, Dimensions } from 'react-native';
+import { Ionicons, MaterialIcons, FontAwesome, AntDesign } from '@expo/vector-icons';
 import BottomTabBarAdmin from "../../Components/BottomTabBarAdmin";
 
 const data = [
@@ -52,8 +51,10 @@ const data = [
 ]
 
 export default function UsuariosAdmin() {
+  const [expandedRows, setExpandedRows] = useState({});
   const [search, setSearch] = useState('');
   const [filteredData, setFilteredData] = useState(data);
+  const [expandedRow, setExpandedRow] = useState(null);
 
   const handleSearch = (text) => {
     setSearch(text);
@@ -65,11 +66,75 @@ export default function UsuariosAdmin() {
     setFilteredData(newData);
   };
 
+  useEffect(() => {
+    // Inicializar el estado de expansión para cada fila
+    const initialExpandedState = {};
+    data.forEach(item => {
+      initialExpandedState[item._id] = false;
+    });
+    setExpandedRows(initialExpandedState);
+  }, []);
+
+  const toggleExpand = (id) => {
+    setExpandedRows(prevState => ({ ...prevState, [id]: !prevState[id] }));
+  };
+
   const selectedTab = "usuariosAdmin";
   const screenWidth = Dimensions.get('window').width;
-  const tableHead = ['Email', 'Permiso'];
-  const tableData = filteredData.map((item) => [item.email, item.clearance.toString()]);
-  const columnWidths = [screenWidth * 0.7, screenWidth * 0.3];
+  const tableHead = ['Acciones', 'Email', 'Permiso'];
+  const columnWidths = [screenWidth * 0.15, screenWidth * 0.55, screenWidth * 0.3];
+
+  const renderActions = (item) => (
+    <View style={styles.actionsContainer}>
+      <TouchableOpacity onPress={() => verDetalle(item)} style={styles.actionButton}>
+        <Ionicons name="ios-eye" size={24} color="blue" /> 
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => editarUsuario(item)} style={styles.actionButton}>
+        <MaterialIcons name="edit" size={24} color="orange" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => borrarUsuario(item)} style={styles.actionButton}>
+        <FontAwesome name="trash" size={24} color="red" />
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderRow = (item, isExpanded) => (
+    <View>
+      <View style={styles.rowStyle}>
+        <TouchableOpacity onPress={() => toggleExpand(item._id)} style={styles.cellStyle}>
+          <AntDesign name={isExpanded ? 'up' : 'down'} size={20} color="black" />
+        </TouchableOpacity>
+        <Text style={[styles.cellStyle, styles.emailStyle]}>{item.email}</Text>
+        <Text style={styles.cellStyle}>{item.clearance.toString()}</Text>
+      </View>
+      {isExpanded && (
+        <View style={styles.actionsContainer}>
+          {renderActions(item)}
+        </View>
+      )}
+    </View>
+  );
+
+  const tableData = filteredData.flatMap((item) => {
+    const isExpanded = expandedRows[item._id];
+    const baseRow = [
+      <TouchableOpacity onPress={() => toggleExpand(item._id)}>
+        <AntDesign name={isExpanded ? 'up' : 'down'} size={20} color="black" />
+      </TouchableOpacity>,
+      item.email,
+      item.clearance.toString(),
+    ];
+
+    const actionsRow = isExpanded ? [
+      null, // Espacio para la columna de la flecha
+      {
+        element: renderActions(item),
+        colspan: 2 // Unir las siguientes dos columnas
+      }
+    ] : [];
+
+    return [baseRow, actionsRow];
+  });
 
   return (
     <View style={{ flex: 1, padding: 16, paddingTop: 30 }}>
@@ -82,11 +147,8 @@ export default function UsuariosAdmin() {
           value={search}
         />
       </View>
-      <ScrollView horizontal={true}>
-        <Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
-          <Row data={tableHead} widthArr={columnWidths} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6 }} />
-          <Rows data={tableData} widthArr={columnWidths} textStyle={{ margin: 6 }} />
-        </Table>
+      <ScrollView style={{ marginTop: 20 }}>
+        {filteredData.map(item => renderRow(item, expandedRows[item._id]))}
       </ScrollView>
       <BottomTabBarAdmin selectedTab={selectedTab} />
     </View>
@@ -115,5 +177,35 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     backgroundColor: '#fff',
     color: '#424242',
+  },
+  rowStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+    // Asegúrate de que la suma de las anchuras de cellStyle y emailStyle no exceda el ancho de la pantalla
+  },
+  cellStyle: {
+    // Estilo para las celdas para mantener todo alineado y cuadriculado
+    padding: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emailStyle: {
+    // Estilo adicional para el correo electrónico para darle más espacio
+    flex: 1, // Toma el espacio restante
+    marginLeft: 15, // Separación de la flecha
+  },
+  actionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly', // Esto separará los íconos uniformemente
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  actionButton: {
+    marginHorizontal: 10, // Añade margen horizontal para separar los íconos
+    padding: 5, // Añade algo de padding si es necesario para aumentar el área táctil
   },
 });

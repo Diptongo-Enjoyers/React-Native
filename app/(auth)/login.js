@@ -17,7 +17,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const ADMIN_CLEARANCE = 0;
 const WORKER_CLEARANCE = 1;
 const DONATOR_CLEARANCE = 2;
-const RECEIVER_CLEARANCE = 3;
 
 const login = () => {
   const [email, setEmail] = useState("");
@@ -58,9 +57,10 @@ const login = () => {
       if (userResponse.ok) {
         const userData = await userResponse.json();
         console.log(userData);
-        if (userData.clearance === ADMIN_CLEARANCE) {
+        if (userData.clearance === ADMIN_CLEARANCE || userData.clearance === WORKER_CLEARANCE) {
           router.replace("../noticiasAdmin");
-        } else {
+        }
+        else if (userData.clearance === DONATOR_CLEARANCE) {
           router.replace("../noticiasDonador");
         }
       } else {

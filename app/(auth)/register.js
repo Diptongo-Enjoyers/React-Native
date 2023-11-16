@@ -43,7 +43,7 @@ const Register = () => {
     const data = await response.json();
 
     if (response.ok) {
-      router.replace("/noticiasBenef");
+      router.replace("../noticiasBenef");
       console.log("Usuario registrado con éxito:", data);
     } else {
       console.error("Error registrando usuario:", data);
@@ -60,7 +60,7 @@ const Register = () => {
         end={{ x: 1, y: 1 }}
         style={styles.container}
       >
-        <Image source={require("../assets/logo.png")} style={styles.logo} />
+        <Image source={require("../../assets/logo.png")} style={styles.logo} />
         <Text style={styles.titulo}>Registro</Text>
 
         <View style={styles.optionsContainer}>

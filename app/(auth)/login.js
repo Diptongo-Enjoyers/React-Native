@@ -59,9 +59,9 @@ const login = () => {
         const userData = await userResponse.json();
         console.log(userData);
         if (userData.clearance === ADMIN_CLEARANCE) {
-          router.replace("/noticiasAdmin");
+          router.replace("../noticiasAdmin");
         } else {
-          router.replace("/noticiasDonador");
+          router.replace("../noticiasDonador");
         }
       } else {
         console.error("Error al obtener información del usuario");
@@ -85,7 +85,7 @@ const login = () => {
           end={{ x: 1, y: 1 }}
           style={styles.container}
         >
-          <Image source={require("../assets/logo.png")} style={styles.logo} />
+          <Image source={require("../../assets/logo.png")} style={styles.logo} />
           <Text style={styles.titulo}>Login</Text>
           <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
 

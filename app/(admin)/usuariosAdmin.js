@@ -20,7 +20,7 @@ const data = [
     "email": "cdamezcua@outlook.com.mx",
     "password": "$2b$10$2aAr.bPnh67CcwLS9uMGwePNSZzWmtU0p5hpVMmlNBmneEi7zjVhS",
     "username": "amezcua",
-    "name": "Carlos Amezcua",
+    "name": "Joseph Amezcua",
     "address": "Calle Falsa 123",
     "phone": 1234567890,
     "clearance": 1,
@@ -71,7 +71,7 @@ export default function UsuariosAdmin() {
   const handleSearch = (text) => {
     setSearch(text);
     const newData = data.filter(item => {
-      const itemData = `${item.email.toUpperCase()} ${item.username.toUpperCase()} ${item.phone.toString()} ${item.clearance.toString()}`;
+      const itemData = `${item.email.toUpperCase()} ${item.name.toUpperCase()} ${item.phone.toString()} ${item.clearance.toString()}`;
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
     });
@@ -129,7 +129,7 @@ export default function UsuariosAdmin() {
         <Ionicons style={styles.searchIcon} name="ios-search" size={20} color="#000" />
         <TextInput
           style={styles.input}
-          placeholder="Buscar por Email, Usuario, Teléfono o Permiso..."
+          placeholder="Buscar por Email, Nombre, Teléfono o Permiso..."
           onChangeText={handleSearch}
           value={search}
         />

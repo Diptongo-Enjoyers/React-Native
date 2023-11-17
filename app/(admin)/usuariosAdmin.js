@@ -46,7 +46,6 @@ export default function UsuariosAdmin() {
       setData(data);
       setFilteredData(data);
 
-      
     } catch (error) {
       console.error('Error fetching user data:', error);
     }

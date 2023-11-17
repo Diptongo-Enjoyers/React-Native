@@ -54,7 +54,6 @@ export default function UsuariosAdmin() {
   const [expandedRows, setExpandedRows] = useState({});
   const [search, setSearch] = useState('');
   const [filteredData, setFilteredData] = useState(data);
-  const [expandedRow, setExpandedRow] = useState(null);
 
   const handleSearch = (text) => {
     setSearch(text);

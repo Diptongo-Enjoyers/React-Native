@@ -50,6 +50,19 @@ const data = [
   },
 ]
 
+const getPermissionLabel = (clearance) => {
+  switch (clearance) {
+    case 0:
+      return 'Admin';
+    case 1:
+      return 'Empleado';
+    case 2:
+      return 'Donador';
+    default:
+      return 'Error';
+  }
+};
+
 export default function UsuariosAdmin() {
   const [expandedRows, setExpandedRows] = useState({});
   const [search, setSearch] = useState('');
@@ -100,7 +113,7 @@ export default function UsuariosAdmin() {
           <AntDesign name={isExpanded ? 'up' : 'down'} size={20} color="black" />
         </TouchableOpacity>
         <Text style={[styles.cellStyle, styles.emailStyle]}>{item.email}</Text>
-        <Text style={styles.cellStyle}>{item.clearance.toString()}</Text>
+        <Text style={styles.cellStyle}>{getPermissionLabel(item.clearance)}</Text>
       </View>
       {isExpanded && (
         <View style={styles.actionsContainer}>

@@ -67,7 +67,6 @@ export default function UsuariosAdmin() {
   };
 
   useEffect(() => {
-    // Inicializar el estado de expansión para cada fila
     const initialExpandedState = {};
     data.forEach(item => {
       initialExpandedState[item._id] = false;
@@ -80,9 +79,6 @@ export default function UsuariosAdmin() {
   };
 
   const selectedTab = "usuariosAdmin";
-  const screenWidth = Dimensions.get('window').width;
-  const tableHead = ['Acciones', 'Email', 'Permiso'];
-  const columnWidths = [screenWidth * 0.15, screenWidth * 0.55, screenWidth * 0.3];
 
   const renderActions = (item) => (
     <View style={styles.actionsContainer}>
@@ -114,27 +110,6 @@ export default function UsuariosAdmin() {
       )}
     </View>
   );
-
-  const tableData = filteredData.flatMap((item) => {
-    const isExpanded = expandedRows[item._id];
-    const baseRow = [
-      <TouchableOpacity onPress={() => toggleExpand(item._id)}>
-        <AntDesign name={isExpanded ? 'up' : 'down'} size={20} color="black" />
-      </TouchableOpacity>,
-      item.email,
-      item.clearance.toString(),
-    ];
-
-    const actionsRow = isExpanded ? [
-      null, // Espacio para la columna de la flecha
-      {
-        element: renderActions(item),
-        colspan: 2 // Unir las siguientes dos columnas
-      }
-    ] : [];
-
-    return [baseRow, actionsRow];
-  });
 
   return (
     <View style={{ flex: 1, padding: 16, paddingTop: 30 }}>
@@ -184,28 +159,25 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
-    // Asegúrate de que la suma de las anchuras de cellStyle y emailStyle no exceda el ancho de la pantalla
   },
   cellStyle: {
-    // Estilo para las celdas para mantener todo alineado y cuadriculado
     padding: 8,
     justifyContent: 'center',
     alignItems: 'center',
   },
   emailStyle: {
-    // Estilo adicional para el correo electrónico para darle más espacio
-    flex: 1, // Toma el espacio restante
-    marginLeft: 15, // Separación de la flecha
+    flex: 1,
+    marginLeft: 15,
   },
   actionsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly', // Esto separará los íconos uniformemente
+    justifyContent: 'space-evenly',
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
   actionButton: {
-    marginHorizontal: 10, // Añade margen horizontal para separar los íconos
-    padding: 5, // Añade algo de padding si es necesario para aumentar el área táctil
+    marginHorizontal: 10,
+    padding: 5,
   },
 });

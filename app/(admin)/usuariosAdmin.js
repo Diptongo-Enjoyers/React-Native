@@ -1,54 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, TouchableOpacity, Text, TextInput, StyleSheet, Dimensions } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome, AntDesign } from '@expo/vector-icons';
 import BottomTabBarAdmin from "../../Components/BottomTabBarAdmin";
-
-const data = [
-  {
-    "_id": "652e960ce6cc34010efc33a0",
-    "email": "danielmd4190@gmail.com",
-    "password": "$2b$10$oyZU60acBEJRERnU3.o11uG5vPuKMQ31no6/mnZZIQ5alpUKIAXua",
-    "username": "pruebaaaa",
-    "name": "Juan Daniel",
-    "address": "Calle Falsa 123",
-    "phone": 1234567890,
-    "clearance": 1,
-    "__v": 0
-  },
-  {
-    "_id": "652e96d6f5b3be4ec847ea0e",
-    "email": "cdamezcua@outlook.com.mx",
-    "password": "$2b$10$2aAr.bPnh67CcwLS9uMGwePNSZzWmtU0p5hpVMmlNBmneEi7zjVhS",
-    "username": "amezcua",
-    "name": "Joseph Amezcua",
-    "address": "Calle Falsa 123",
-    "phone": 1234567890,
-    "clearance": 1,
-    "__v": 0
-  },
-  {
-    "_id": "6542b7b6ff791a0109569793",
-    "email": "cdamezcua1@outlook.com.mx",
-    "password": "$2b$10$7MU8EfOqGNWWNmIZoJVNwuXExvhcP0RzK6.qQe9u1gU6HvSPUdpla",
-    "username": "amezcua1",
-    "name": "Carlos Amezcua",
-    "address": "Calle Falsa 123",
-    "phone": 1234567890,
-    "clearance": 1,
-    "__v": 0
-  },
-  {
-    "_id": "654332d016208420e292d050",
-    "email": "diego.curiel@tec.mx",
-    "password": "$2b$10$e7DCxfvPzD4pOlMLx1HVCOxkdIsp68UcmlfD8ZMxEfLJ3vSzAAlny",
-    "username": "Curiel",
-    "clearance": 0,
-    "__v": 0,
-    "name": "Diego Curiel Castellanos",
-    "phone": 5212345678,
-    "profilePictureURL": "https://static01.nyt.com/images/2023/04/20/fashion/20HASBULLA/20HASBULLA-superJumbo.jpg?quality=75&auto=webp"
-  },
-]
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const getPermissionLabel = (clearance) => {
   switch (clearance) {
@@ -64,9 +18,43 @@ const getPermissionLabel = (clearance) => {
 };
 
 export default function UsuariosAdmin() {
+
   const [expandedRows, setExpandedRows] = useState({});
   const [search, setSearch] = useState('');
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredData, setFilteredData] = useState([]);
+  const [data, setData] = useState([]);
+
+  const fetchData = async () => {
+    const token = await AsyncStorage.getItem("userToken"); // Obtiene el token del almacenamiento
+    if (!token) {
+      console.error("Token no encontrado");
+      return;
+    }
+
+    try {
+      const response = await fetch('https://api-three-kappa-45.vercel.app/users/', {
+        headers: {
+          Authorization: `Bearer ${token}`, // Usa el token en el encabezado de autorización
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`); // Maneja la respuesta no exitosa
+      }
+
+      const data = await response.json();
+      setData(data);
+      setFilteredData(data);
+
+      
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleSearch = (text) => {
     setSearch(text);
@@ -135,7 +123,10 @@ export default function UsuariosAdmin() {
         />
       </View>
       <ScrollView style={{ marginTop: 20 }}>
-        {filteredData.map(item => renderRow(item, expandedRows[item._id]))}
+        {filteredData.map(item => {
+          const isExpanded = expandedRows[item._id];
+          return renderRow(item, isExpanded);
+        })}
       </ScrollView>
       <BottomTabBarAdmin selectedTab={selectedTab} />
     </View>

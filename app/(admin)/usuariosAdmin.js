@@ -53,7 +53,7 @@ export default function UsuariosAdmin() {
       console.error('Error fetching user data:', error);
     }
   };
-  
+
   const verDetalle = async (item) => {
     try {
       await AsyncStorage.setItem("selectedItemId", item._id);
@@ -128,12 +128,17 @@ export default function UsuariosAdmin() {
   const handleSearch = (text) => {
     setSearch(text);
     const newData = data.filter(item => {
-      const itemData = `${item.email.toUpperCase()} ${item.name.toUpperCase()} ${item.phone.toString()} ${item.clearance.toString()}`;
+      const itemData = `${item.email ? item.email.toUpperCase() : ''
+        } ${item.name ? item.name.toUpperCase() : ''
+        } ${item.phone ? item.phone.toString() : ''
+        } ${item.clearance !== undefined ? item.clearance.toString() : ''
+        }`;
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
     });
     setFilteredData(newData);
   };
+
 
   useEffect(() => {
     const initialExpandedState = {};

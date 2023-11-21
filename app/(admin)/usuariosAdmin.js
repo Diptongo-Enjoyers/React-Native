@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome, AntDesign } from '@expo/vector-icons';
 import BottomTabBarAdmin from "../../Components/BottomTabBarAdmin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -51,7 +51,26 @@ export default function UsuariosAdmin() {
     }
   };
 
-  const borrarUsuario = async (item) => {
+  const borrarUsuario = (item) => {
+    Alert.alert(
+      "Confirmar Eliminación",
+      "¿Estás seguro de que quieres eliminar este usuario?",
+      [
+        {
+          text: "Cancelar",
+          onPress: () => console.log("Cancelado"),
+          style: "cancel"
+        },
+        { 
+          text: "OK", 
+          onPress: () => eliminarUsuarioConfirmado(item) 
+        }
+      ],
+      { cancelable: false }
+    );
+  };  
+
+  const eliminarUsuarioConfirmado = async (item) => {
     const token = await AsyncStorage.getItem("userToken");
     if (!token) {
       console.error("Token no encontrado");

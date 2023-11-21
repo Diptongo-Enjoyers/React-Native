@@ -89,18 +89,18 @@ export default function editarPerfilDonador() {
   const updateUserInformation = async () => {
     const token = await AsyncStorage.getItem("userToken");
     const userId = await AsyncStorage.getItem("selectedItemId");
-  
+
     if (!userId || !token) {
       console.error("No se encontró el ID del usuario o el token.");
       return;
     }
-  
+
     // Asegúrate de convertir el valor de selectedRole a número, si clearance en la base de datos es numérico.
     const updatedUser = {
       ...user,
       clearance: parseInt(selectedRole, 10), // Convierte el valor de selectedRole a número
     };
-  
+
     try {
       const response = await fetch(
         `https://api-three-kappa-45.vercel.app/users/${userId}`, // Usa el ID del usuario en la URL
@@ -113,11 +113,11 @@ export default function editarPerfilDonador() {
           body: JSON.stringify(updatedUser), // Envía el usuario actualizado
         }
       );
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       const data = await response.json();
       console.log(data);
       // Puedes querer manejar la respuesta de alguna manera, por ejemplo, informar al usuario que la actualización fue exitosa.
@@ -125,7 +125,7 @@ export default function editarPerfilDonador() {
       console.error("Error al actualizar la información del usuario:", error);
     }
   };
-  
+
   return (
     <NativeBaseProvider>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} flex={1}>
@@ -282,9 +282,11 @@ export default function editarPerfilDonador() {
                   variant="solid"
                   colorScheme="info"
                   width={"50%"}
-                  onPress={() => {
-                    updateUserInformation();
-                    router.replace("/usuariosAdmin");
+                  onPress={async () => {
+                    await updateUserInformation();
+                    setTimeout(() => {
+                      router.replace("/usuariosAdmin");
+                    }, 500);
                   }}
                 >
                   Guardar

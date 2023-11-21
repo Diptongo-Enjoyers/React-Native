@@ -6,7 +6,7 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  Button
+  Button,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useRouter } from "expo-router";
@@ -17,7 +17,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
 export default function alimentoDonador() {
   const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
@@ -25,7 +24,7 @@ export default function alimentoDonador() {
   const [quantity, setQuantity] = useState("");
   const router = useRouter();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date()); 
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const submitDonation = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
@@ -124,31 +123,67 @@ export default function alimentoDonador() {
   };
 
   const closeFinishModal = () => {
-    // Display a confirmation alert
-    Alert.alert(
-      "Confirmación", // Alert Title
-      "¿Estás seguro que quieres acabar tu orden?", // Alert Message
-      [
-        {
-          text: "Cancel",
-          onPress: () => {
-            setIsModalVisible(false);
+    
+    // Check if the user has added any items to the list
+    if (items.length === 0) {
+      Alert.alert(
+        "Error",
+        "No has agregado ningún alimento a tu donación.",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              setIsModalVisible(false);
+            },
           },
-          // No action taken
-          style: "cancel",
-        },
-        {
-          text: "OK",
-          onPress: () => {
-            setIsModalVisible(false);
-            submitDonation();
-            // Close the modal if OK is pressed
-            // Add any additional actions you want to perform after confirmation
+        ],
+        { cancelable: false }
+      );
+    } 
+    // Check if the user has selected a date in the past
+    else if (selectedDate < new Date()) {
+      Alert.alert(
+        "Error",
+        "La fecha de entrega no puede ser en el pasado.",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              setIsModalVisible(false);
+            },
           },
-        },
-      ],
-      { cancelable: false } // The alert cannot be dismissed by tapping outside of the alert box
-    );
+        ],
+        { cancelable: false }
+      );
+    }
+    
+    else {
+      // Display a confirmation alert
+      Alert.alert(
+        "Confirmación", // Alert Title
+        "¿Estás seguro que quieres acabar tu orden?", // Alert Message
+        [
+          {
+            text: "Cancel",
+            onPress: () => {
+              setIsModalVisible(false);
+            },
+            // No action taken
+            style: "cancel",
+          },
+          {
+            text: "OK",
+            onPress: () => {
+              setIsModalVisible(false);
+              submitDonation();
+              // Close the modal if OK is pressed
+              // Add any additional actions you want to perform after confirmation
+            },
+          },
+        ],
+        { cancelable: false } // The alert cannot be dismissed by tapping outside of the alert box
+      );
+    }
   };
 
   const closeModal = () => {
@@ -165,7 +200,10 @@ export default function alimentoDonador() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TouchableOpacity onPress={closeModal} style={styles.closeModalButton}>
+            <TouchableOpacity
+              onPress={closeModal}
+              style={styles.closeModalButton}
+            >
               <FontAwesome name="close" size={24} color="#0093F2" />
             </TouchableOpacity>
 
@@ -232,7 +270,14 @@ export default function alimentoDonador() {
           <TextInput
             placeholder="Cantidad en kilos"
             value={quantity}
-            onChangeText={setQuantity}
+            onChangeText={(text) => {
+              // Use a regular expression to allow only positive numbers
+              const isValid = text.match(/^[1-9]\d*$/);
+              // If the text is not empty and is a valid number, update the state
+              if (text === "" || isValid) {
+                setQuantity(text);
+              }
+            }}
             keyboardType="numeric"
             style={styles.input}
           />
@@ -391,5 +436,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-
 });

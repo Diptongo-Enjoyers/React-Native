@@ -67,7 +67,7 @@ export default function verPerfilDonador() {
                     <View style={styles.container}>
                         <VStack space={2} m={4} flex={1}>
                             <Heading bold size="xl">
-                                Editar perfil
+                                Visualizar perfil
                             </Heading>
                             <Divider my={2} />
                             <FormControl>

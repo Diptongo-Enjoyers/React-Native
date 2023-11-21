@@ -3,6 +3,8 @@ import { View, FlatList, StyleSheet, Text, TouchableOpacity, TextInput } from 'r
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useRouter } from "expo-router";
 import Icon from 'react-native-vector-icons/Ionicons'; // Choose appropriate icon set
+import { FontAwesome } from '@expo/vector-icons';
+
 
 
 
@@ -25,8 +27,16 @@ export default function alimentoDonador() {
     const renderItem = ({ item }) => (
       <View style={styles.item}>
         <Text style={styles.itemText}>{item.food} - {item.quantity} kg</Text>
+        <TouchableOpacity onPress={() => deleteItem(item.key)} style={styles.deleteButton}>
+          <FontAwesome name="trash" size={24} color="red"></FontAwesome> 
+        </TouchableOpacity>
       </View>
     );
+
+    const deleteItem = (key) => {
+      setItems(items => items.filter(item => item.key !== key));
+    };
+
   
     return (
         <View style={styles.container1}>
@@ -135,6 +145,9 @@ export default function alimentoDonador() {
       marginVertical: 8,
       backgroundColor: '#e7e7e7',
       borderRadius: 5,
+      flexDirection: 'row',  // Align children in a row
+      alignItems: 'center', 
+      justifyContent: 'space-between',
     },
     itemText: {
       fontSize: 18,
@@ -163,5 +176,8 @@ export default function alimentoDonador() {
     finishButton: {
         color: '#0093F2',
         fontSize: 20,
+    },
+    deleteButton: {
+      marginRight : 10,
     }
   });

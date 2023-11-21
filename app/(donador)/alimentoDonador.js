@@ -24,7 +24,7 @@ export default function alimentoDonador() {
   
     const renderItem = ({ item }) => (
       <View style={styles.item}>
-        <Text style={styles.itemText}>{item.food.label} - {item.quantity} kg</Text>
+        <Text style={styles.itemText}>{item.food} - {item.quantity} kg</Text>
       </View>
     );
   
@@ -42,9 +42,9 @@ export default function alimentoDonador() {
               open={open}
               value={selectedFood}
               items={[
-                { label: 'Frutas', value: 'frutas' },
-                { label: 'Verduras', value: 'verduras' },
-                { label: 'Carnes', value: 'carnes' },
+                { label: 'Frutas', value: 'Frutas' },
+                { label: 'Verduras', value: 'Verduras' },
+                { label: 'Carnes', value: 'Carnes' },
                 // Más opciones...
               ]}
               setOpen={setOpen}

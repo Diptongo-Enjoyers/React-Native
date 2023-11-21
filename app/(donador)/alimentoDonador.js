@@ -138,8 +138,14 @@ export default function alimentoDonador() {
     headerBar: {
         backgroundColor: '#fff',
         paddingTop: 10, // Adjust for status bar height if necessary
-        paddingBottom: 10,
+        paddingBottom: 40,
         paddingHorizontal: 10,
         // Add shadow or elevation if you want to give it depth
       },
+    backButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 5,
+        position: 'absolute', // Position absolutely within the parent view             // Adjust top and left as needed for your layout
+      },  
   });

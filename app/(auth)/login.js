@@ -58,10 +58,10 @@ const login = () => {
         const userData = await userResponse.json();
         console.log(userData);
         if (userData.clearance === ADMIN_CLEARANCE || userData.clearance === WORKER_CLEARANCE) {
-          router.replace("../noticiasAdmin");
+          router.replace("/noticiasAdmin");
         }
         else if (userData.clearance === DONATOR_CLEARANCE) {
-          router.replace("../noticiasDonador");
+          router.replace("/noticiasDonador");
         }
       } else {
         console.error("Error al obtener información del usuario");

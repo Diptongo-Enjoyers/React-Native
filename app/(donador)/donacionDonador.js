@@ -19,7 +19,7 @@ export default function DonacionDonador() {
             <Button
               style={styles.button}
               variant="solid"
-              onPress={() => { }}
+              onPress={() => router.replace("/alimentoDonador")}
             >
               <MaterialCommunityIcons
                 name="food-apple"

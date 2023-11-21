@@ -28,7 +28,7 @@ export default function UsuariosAdmin() {
   const router = useRouter();
 
   const fetchData = async () => {
-    const token = await AsyncStorage.getItem("userToken"); // Obtiene el token del almacenamiento
+    const token = await AsyncStorage.getItem("userToken");
     if (!token) {
       console.error("Token no encontrado");
       return;
@@ -37,12 +37,12 @@ export default function UsuariosAdmin() {
     try {
       const response = await fetch('https://api-three-kappa-45.vercel.app/users/', {
         headers: {
-          Authorization: `Bearer ${token}`, // Usa el token en el encabezado de autorización
+          Authorization: `Bearer ${token}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`); // Maneja la respuesta no exitosa
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
@@ -57,7 +57,7 @@ export default function UsuariosAdmin() {
   const editarUsuario = async (item) => {
     try {
       await AsyncStorage.setItem("selectedItemId", item._id);
-  
+
       router.replace('/editarUserAdmin');
     } catch (error) {
       console.error("Error al guardar el ID del item:", error);
@@ -74,14 +74,14 @@ export default function UsuariosAdmin() {
           onPress: () => console.log("Cancelado"),
           style: "cancel"
         },
-        { 
-          text: "OK", 
-          onPress: () => eliminarUsuarioConfirmado(item) 
+        {
+          text: "OK",
+          onPress: () => eliminarUsuarioConfirmado(item)
         }
       ],
       { cancelable: false }
     );
-  };  
+  };
 
   const eliminarUsuarioConfirmado = async (item) => {
     const token = await AsyncStorage.getItem("userToken");
@@ -102,7 +102,6 @@ export default function UsuariosAdmin() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // Actualizar el estado para reflejar que el usuario ha sido eliminado
       const updatedData = data.filter(userData => userData._id !== item._id);
       setData(updatedData);
       setFilteredData(updatedData);

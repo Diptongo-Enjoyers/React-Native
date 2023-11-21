@@ -34,6 +34,10 @@ export default function alimentoDonador() {
                 <TouchableOpacity onPress={back} style={styles.backButton}>
                     <Icon name="arrow-back" size={35} color="#0093F2" />
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.finish}>
+                    <Text style={styles.finishButton}> Finish </Text>
+                </TouchableOpacity>
+
             {/* Add other header elements if needed */}
             </View>
         <View style={styles.container}>
@@ -148,4 +152,16 @@ export default function alimentoDonador() {
         padding: 5,
         position: 'absolute', // Position absolutely within the parent view             // Adjust top and left as needed for your layout
       },  
+    finish: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 5,
+        position: 'absolute', // Position absolutely within the parent view             // Adjust top and left as needed for your layout
+        right: 10,
+        top: 10,
+    },
+    finishButton: {
+        color: '#0093F2',
+        fontSize: 20,
+    }
   });

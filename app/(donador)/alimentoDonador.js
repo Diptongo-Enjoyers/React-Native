@@ -18,7 +18,12 @@ export default function alimentoDonador() {
   
     const addItem = () => {
       if (quantity.trim() && selectedFood) {
-        setItems([...items, { key: `${items.length}`, food: selectedFood, quantity }]);
+        const newItem = {
+          key: Date.now().toString(), // Generate a unique key based on the current timestamp
+          food: selectedFood,
+          quantity
+        };
+        setItems(currentItems => [...currentItems, newItem]);
         setQuantity('');
         setSelectedFood(null);
       }

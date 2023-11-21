@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { View, FlatList, StyleSheet, Text, TouchableOpacity, TextInput } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {useRouter } from "expo-router";
+import Icon from 'react-native-vector-icons/Ionicons'; // Choose appropriate icon set
+
+
 
 export default function alimentoDonador() {
     const [items, setItems] = useState([]);
     const [open, setOpen] = useState(false);
     const [selectedFood, setSelectedFood] = useState(null);
     const [quantity, setQuantity] = useState('');
+    const { back } = useRouter();
+
   
     const addItem = () => {
       if (quantity.trim() && selectedFood) {
@@ -25,6 +30,12 @@ export default function alimentoDonador() {
   
     return (
         <View style={styles.container1}>
+            <View style={styles.headerBar}>
+                <TouchableOpacity onPress={back} style={styles.backButton}>
+                    <Icon name="arrow-back" size={35} color="#0093F2" />
+                </TouchableOpacity>
+            {/* Add other header elements if needed */}
+            </View>
         <View style={styles.container}>
             <DropDownPicker
             style={styles.pickerContainer}
@@ -43,24 +54,6 @@ export default function alimentoDonador() {
               zIndex={30000} // Asegúrate de que el zIndex sea suficientemente alto
             
             />
-          {/* <View style={styles.pickerContainer}>
-            <DropDownPicker
-              open={open}
-              value={selectedFood}
-              items={[
-                { label: 'Frutas', value: 'frutas' },
-                { label: 'Verduras', value: 'verduras' },
-                { label: 'Carnes', value: 'carnes' },
-                // Más opciones...
-              ]}
-              setOpen={setOpen}
-              setValue={setSelectedFood}
-              setItems={setItems}
-              placeholder="Selecciona un alimento"
-              zIndex={30000} // Asegúrate de que el zIndex sea suficientemente alto
-            
-            />
-          </View> */}
   
         <View style={styles.inputContainer}>
           <TextInput
@@ -95,7 +88,6 @@ export default function alimentoDonador() {
   const styles = StyleSheet.create({
     container1: {
         flex: 1,
-        paddingTop: 20,
         backgroundColor: '#f5f5f5',
     },
     container: {
@@ -143,4 +135,11 @@ export default function alimentoDonador() {
     itemText: {
       fontSize: 18,
     },
+    headerBar: {
+        backgroundColor: '#fff',
+        paddingTop: 10, // Adjust for status bar height if necessary
+        paddingBottom: 10,
+        paddingHorizontal: 10,
+        // Add shadow or elevation if you want to give it depth
+      },
   });

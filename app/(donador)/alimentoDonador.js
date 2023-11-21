@@ -115,7 +115,7 @@ export default function alimentoDonador() {
       marginHorizontal: 20
     },
     pickerContainer: {
-      marginEnd: 100,
+      marginEnd: 1,
       marginBottom: 100, // Ajusta este valor según sea necesario para dar espacio al menú desplegable
     },
     inputContainer: {

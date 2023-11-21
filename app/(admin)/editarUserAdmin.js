@@ -184,7 +184,7 @@ export default function editarPerfilDonador() {
                     accessibilityLabel="Elige un rol"
                     placeholder="Elige un rol"
                     _selectedItem={{
-                      bg: "teal.600",
+                      bg: "blue.600",
                       endIcon: <CheckIcon size="5" />,
                     }}
                     mt={1}
@@ -196,7 +196,6 @@ export default function editarPerfilDonador() {
                   </Select>
                 </VStack>
               </FormControl>
-
               <FormControl pt={6}>
                 <VStack>
                   <FormControl.Label>Teléfono</FormControl.Label>

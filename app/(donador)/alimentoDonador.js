@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  Button
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useRouter } from "expo-router";
@@ -13,7 +14,8 @@ import Icon from "react-native-vector-icons/Ionicons"; // Choose appropriate ico
 import { FontAwesome } from "@expo/vector-icons";
 import { Modal, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Alert } from 'react-native';
+import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function alimentoDonador() {
@@ -23,7 +25,59 @@ export default function alimentoDonador() {
   const [quantity, setQuantity] = useState("");
   const router = useRouter();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date()); 
+
+  const submitDonation = async () => {
+    const userToken = await AsyncStorage.getItem("userToken");
+    const response = await fetch(
+      "https://api-three-kappa-45.vercel.app/donations/material",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          materials: items,
+          receptionDate: selectedDate,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log("Donación exitosa");
+      Alert.alert(
+        "¡Donación exitosa!",
+        "Gracias por tu donación, tu ayuda es muy importante para nosotros.",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              router.replace("/noticiasDonador");
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    } else {
+      console.error("Error procesando donación:", data);
+      Alert.alert(
+        "Error",
+        "Hubo un error al procesar tu donación, por favor intenta de nuevo.",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              router.replace("/noticiasDonador");
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    }
+  };
 
   const addItem = () => {
     if (quantity.trim() && selectedFood) {
@@ -81,19 +135,24 @@ export default function alimentoDonador() {
             setIsModalVisible(false);
           },
           // No action taken
-          style: "cancel"
-          
+          style: "cancel",
         },
         {
           text: "OK",
           onPress: () => {
-            setIsModalVisible(false); // Close the modal if OK is pressed
+            setIsModalVisible(false);
+            submitDonation();
+            // Close the modal if OK is pressed
             // Add any additional actions you want to perform after confirmation
-          }
-        }
+          },
+        },
       ],
       { cancelable: false } // The alert cannot be dismissed by tapping outside of the alert box
     );
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
   };
 
   return (
@@ -106,6 +165,10 @@ export default function alimentoDonador() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <TouchableOpacity onPress={closeModal} style={styles.closeModalButton}>
+              <FontAwesome name="close" size={24} color="#0093F2" />
+            </TouchableOpacity>
+
             <Text style={styles.modalText}>Fecha de entrega</Text>
             {Platform.OS === "android" && (
               <DateTimePicker
@@ -276,17 +339,17 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white', // This sets the actual background color of the modal content area
+    backgroundColor: "white", // This sets the actual background color of the modal content area
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -297,17 +360,23 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     marginTop: 50,
-    color: '#0093F2',
-    textAlign: 'center',
+    color: "#0093F2",
+    textAlign: "center",
   },
   modalText: {
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: "center",
     //bold
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   datePicker: {
     width: 200,
     height: 200,
+  },
+  closeModalButton: {
+    position: "absolute",
+    right: 10,
+    top: 10,
+    
   },
 });

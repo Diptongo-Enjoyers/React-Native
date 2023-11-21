@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView, TouchableOpacity, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome, AntDesign } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import BottomTabBarAdmin from "../../Components/BottomTabBarAdmin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -23,6 +24,8 @@ export default function UsuariosAdmin() {
   const [search, setSearch] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [data, setData] = useState([]);
+
+  const router = useRouter();
 
   const fetchData = async () => {
     const token = await AsyncStorage.getItem("userToken"); // Obtiene el token del almacenamiento
@@ -48,6 +51,16 @@ export default function UsuariosAdmin() {
 
     } catch (error) {
       console.error('Error fetching user data:', error);
+    }
+  };
+
+  const editarUsuario = async (item) => {
+    try {
+      await AsyncStorage.setItem("selectedItemId", item._id);
+  
+      router.replace('/editarUserAdmin');
+    } catch (error) {
+      console.error("Error al guardar el ID del item:", error);
     }
   };
 

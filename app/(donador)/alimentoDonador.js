@@ -192,7 +192,7 @@ export default function alimentoDonador() {
               style={styles.buttonClose}
               onPress={closeFinishModal}
             >
-              <Text style={styles.textStyle}>Confirm</Text>
+              <Text style={styles.buttonCloseText}>Confirm</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "white", // This sets the actual background color of the modal content area
     borderRadius: 20,
-    padding: 35,
+    padding: 50,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -365,6 +365,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
+    fontSize: 20,
     textAlign: "center",
     //bold
     fontWeight: "bold",
@@ -377,6 +378,18 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     top: 10,
-    
   },
+  buttonClose: {
+    backgroundColor: "#0093F2",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    marginTop: 20,
+  },
+  buttonCloseText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+
 });

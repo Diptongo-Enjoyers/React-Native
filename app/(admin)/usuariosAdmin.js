@@ -51,6 +51,35 @@ export default function UsuariosAdmin() {
     }
   };
 
+  const borrarUsuario = async (item) => {
+    const token = await AsyncStorage.getItem("userToken");
+    if (!token) {
+      console.error("Token no encontrado");
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://api-three-kappa-45.vercel.app/users/${item._id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // Actualizar el estado para reflejar que el usuario ha sido eliminado
+      const updatedData = data.filter(userData => userData._id !== item._id);
+      setData(updatedData);
+      setFilteredData(updatedData);
+
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);

@@ -79,12 +79,13 @@ export default function editarPerfilDonador() {
   }, []);
 
   const handleRoleChange = (newValue) => {
-    setSelectedRole(newValue);
+    setSelectedRole(newValue); // newValue ya es un string, no es necesario convertirlo
     setUser((prevUser) => ({
       ...prevUser,
-      clearance: parseInt(newValue, 10), // Asegúrate de que clearance sea un número si así se requiere.
+      clearance: newValue, // Asigna el valor directamente sin convertirlo a un número
     }));
   };
+  
 
   const updateUserInformation = async () => {
     const token = await AsyncStorage.getItem("userToken");
@@ -97,9 +98,9 @@ export default function editarPerfilDonador() {
 
     // Asegúrate de convertir el valor de selectedRole a número, si clearance en la base de datos es numérico.
     const updatedUser = {
-      ...user,
-      clearance: parseInt(selectedRole, 10), // Convierte el valor de selectedRole a número
-    };
+    ...user,
+    clearance: selectedRole, // Asigna el valor directamente sin convertirlo a un número
+  };
 
     try {
       const response = await fetch(

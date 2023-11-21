@@ -19,27 +19,10 @@ import {
   FormControl,
   HStack,
   Button,
-  ScrollView,
-  Box,
   KeyboardAvoidingView,
   Select,
   CheckIcon
 } from "native-base";
-
-const clearance = (clearance) => {
-  switch (clearance) {
-    case 0:
-      return "Administrador";
-    case 1:
-      return "Trabajador";
-    case 2:
-      return "Donador";
-    case 3:
-      return "Receptor";
-    default:
-      return "";
-  }
-};
 
 export default function editarPerfilDonador() {
   const router = useRouter();
@@ -48,7 +31,7 @@ export default function editarPerfilDonador() {
 
   useEffect(() => {
     const fetchUserInformation = async () => {
-      const itemId = await AsyncStorage.getItem("selectedItemId"); // Obtiene el ID del item desde AsyncStorage
+      const itemId = await AsyncStorage.getItem("selectedItemId");
       const token = await AsyncStorage.getItem("userToken");
 
       if (!itemId || !token) {
@@ -68,7 +51,7 @@ export default function editarPerfilDonador() {
         }
 
         const data = await response.json();
-        setUser(data); // Actualiza el estado con la información del usuario
+        setUser(data);
         setSelectedRole(data.clearance.toString());
       } catch (error) {
         console.error("Error al obtener la información del usuario:", error);
@@ -79,13 +62,12 @@ export default function editarPerfilDonador() {
   }, []);
 
   const handleRoleChange = (newValue) => {
-    setSelectedRole(newValue); // newValue ya es un string, no es necesario convertirlo
+    setSelectedRole(newValue);
     setUser((prevUser) => ({
       ...prevUser,
-      clearance: newValue, // Asigna el valor directamente sin convertirlo a un número
+      clearance: newValue,
     }));
   };
-  
 
   const updateUserInformation = async () => {
     const token = await AsyncStorage.getItem("userToken");
@@ -96,22 +78,21 @@ export default function editarPerfilDonador() {
       return;
     }
 
-    // Asegúrate de convertir el valor de selectedRole a número, si clearance en la base de datos es numérico.
     const updatedUser = {
-    ...user,
-    clearance: selectedRole, // Asigna el valor directamente sin convertirlo a un número
-  };
+      ...user,
+      clearance: selectedRole,
+    };
 
     try {
       const response = await fetch(
-        `https://api-three-kappa-45.vercel.app/users/${userId}`, // Usa el ID del usuario en la URL
+        `https://api-three-kappa-45.vercel.app/users/${userId}`,
         {
           method: "PATCH",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(updatedUser), // Envía el usuario actualizado
+          body: JSON.stringify(updatedUser),
         }
       );
 
@@ -121,7 +102,6 @@ export default function editarPerfilDonador() {
 
       const data = await response.json();
       console.log(data);
-      // Puedes querer manejar la respuesta de alguna manera, por ejemplo, informar al usuario que la actualización fue exitosa.
     } catch (error) {
       console.error("Error al actualizar la información del usuario:", error);
     }
@@ -208,7 +188,7 @@ export default function editarPerfilDonador() {
                       endIcon: <CheckIcon size="5" />,
                     }}
                     mt={1}
-                    onValueChange={handleRoleChange} // Usa el nuevo manejador aquí.
+                    onValueChange={handleRoleChange}
                   >
                     <Select.Item label="Admin" value="0" />
                     <Select.Item label="Empleado" value="1" />
@@ -303,7 +283,7 @@ export default function editarPerfilDonador() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Asegura que el contenedor ocupe toda la pantalla
+    flex: 1,
     justifyContent: "space-between",
     paddingBottom: 30,
   },

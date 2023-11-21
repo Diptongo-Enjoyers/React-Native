@@ -11,7 +11,7 @@ export default function alimentoDonador() {
     const [open, setOpen] = useState(false);
     const [selectedFood, setSelectedFood] = useState(null);
     const [quantity, setQuantity] = useState('');
-    const { back } = useRouter();
+    const router = useRouter();    
 
   
     const addItem = () => {
@@ -31,7 +31,7 @@ export default function alimentoDonador() {
     return (
         <View style={styles.container1}>
             <View style={styles.headerBar}>
-                <TouchableOpacity onPress={back} style={styles.backButton}>
+                <TouchableOpacity onPress={() => router.replace("/donacionDonador")} style={styles.backButton}>
                     <Icon name="arrow-back" size={35} color="#0093F2" />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.finish}>

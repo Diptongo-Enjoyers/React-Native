@@ -203,7 +203,7 @@ export default function verPerfilDonador() {
                                     width={"100%"}
                                     onPress={() => router.replace("/usuariosAdmin")}
                                 >
-                                    Cancelar
+                                    Cerrar
                                 </Button>
                             </HStack>
                         </VStack>

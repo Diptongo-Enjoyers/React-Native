@@ -53,6 +53,16 @@ export default function UsuariosAdmin() {
       console.error('Error fetching user data:', error);
     }
   };
+  
+  const verDetalle = async (item) => {
+    try {
+      await AsyncStorage.setItem("selectedItemId", item._id);
+
+      router.replace('/verUserAdmin');
+    } catch (error) {
+      console.error("Error al guardar el ID del item:", error);
+    }
+  };
 
   const editarUsuario = async (item) => {
     try {

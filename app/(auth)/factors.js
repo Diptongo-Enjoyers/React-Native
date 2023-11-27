@@ -1,8 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, Image, StyleSheet, TextInput } from 'react-native';
 import { NativeBaseProvider, Button } from 'native-base';
+import { useRouter } from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CodeInputScreen = () => {
+  const router = useRouter();
   const [code, setCode] = useState(Array(6).fill(''));
   const inputRefs = useRef([]);
 
@@ -16,11 +19,38 @@ const CodeInputScreen = () => {
     }
   };
 
-  const handleSubmit = () => {
-    if (code.every((digit) => digit.length === 1)) {
-      console.log("Código enviado:", code.join(''));
+  const handleSubmit = async () => {
+    const fullCode = code.join('');
+    if (fullCode.length === 6) {
+      try {
+        const userEmail = await AsyncStorage.getItem("userEmail");
+        if (!userEmail) throw new Error("No se encontró el correo electrónico del usuario.");
+
+        const body = JSON.stringify({
+          email: userEmail,
+          verificationCode: fullCode,
+        });
+
+        const response = await fetch("https://api-three-kappa-45.vercel.app/auth/verifyAuthenticationCode", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: body,
+        });
+
+        const data = await response.json();
+        if (response.ok && data.accessToken) {
+          await AsyncStorage.setItem("userToken", data.accessToken);
+          router.replace("/noticiasAdmin");
+        } else {
+          console.error("Error al verificar el código:", data.message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     } else {
-      console.log("Todos los campos deben estar llenos");
+      console.log("El código debe tener 6 dígitos");
     }
   };
 

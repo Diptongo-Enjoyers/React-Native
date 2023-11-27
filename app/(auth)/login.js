@@ -38,13 +38,12 @@ const login = () => {
         }),
       }
     );
-
+  
+    await AsyncStorage.setItem("userEmail", email);
     const data = await response.json();
     if (response.ok && data.accessToken) {
-      // Almacena el token
       await AsyncStorage.setItem("userToken", data.accessToken);
-
-      // Hacer una solicitud a la ruta que devuelve la información del usuario
+  
       const userResponse = await fetch(
         "https://api-three-kappa-45.vercel.app/users/getMe",
         {
@@ -53,12 +52,10 @@ const login = () => {
           },
         }
       );
-
-      if (userResponse.ok && data.accessToken) {
-        const userData = await userResponse.json();
-        if (userData.clearance === DONATOR_CLEARANCE) {
-          router.replace("/noticiasDonador");
-        }
+  
+      const userData = await userResponse.json();
+      if (userResponse.ok && userData.clearance === DONATOR_CLEARANCE) {
+        router.replace("/noticiasDonador");
       } else {
         router.replace("/factors");
       }

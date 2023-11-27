@@ -56,6 +56,26 @@ export default function BottomTabBarAdmin({ selectedTab }) {
         </Text>
       </TouchableOpacity>
 
+      <TouchableOpacity
+        style={styles.tab}
+        onPress={() => handleTabSelect("/tablaDonacionesAlimentos")}
+      >
+        <MaterialCommunityIcons
+          name="food"
+          size={24}
+          color={selectedTab === "tablaDonacionesAlimentos" ? "#e91e63" : "gray"}
+        />
+        <Text
+          style={[
+            styles.tabText,
+            selectedTab === "tablaDonacionesAlimentos" ? styles.activeTabText : {},
+          ]}
+        >
+          Donaciones
+        </Text>
+      </TouchableOpacity>
+
+
       {userData === ADMIN_CLEARANCE && (
         <TouchableOpacity
         style={styles.tab}

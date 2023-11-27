@@ -156,7 +156,7 @@ export default function alimentoDonador() {
         { cancelable: false }
       );
     }
-    
+
     else {
       // Display a confirmation alert
       Alert.alert(

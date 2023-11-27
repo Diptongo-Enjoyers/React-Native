@@ -38,13 +38,12 @@ const login = () => {
         }),
       }
     );
-
+  
+    await AsyncStorage.setItem("userEmail", email);
     const data = await response.json();
-    if (response.ok) {
-      // Almacena el token
+    if (response.ok && data.accessToken) {
       await AsyncStorage.setItem("userToken", data.accessToken);
-
-      // Hacer una solicitud a la ruta que devuelve la información del usuario
+  
       const userResponse = await fetch(
         "https://api-three-kappa-45.vercel.app/users/getMe",
         {
@@ -53,20 +52,15 @@ const login = () => {
           },
         }
       );
-
-      if (userResponse.ok) {
-        const userData = await userResponse.json();
-        console.log(userData);
-        if (userData.clearance === ADMIN_CLEARANCE || userData.clearance === WORKER_CLEARANCE) {
-          router.replace("/noticiasAdmin");
-        }
-        else if (userData.clearance === DONATOR_CLEARANCE) {
-          router.replace("/noticiasDonador");
-        }
+  
+      const userData = await userResponse.json();
+      if (userResponse.ok && userData.clearance === DONATOR_CLEARANCE) {
+        router.replace("/noticiasDonador");
       } else {
-        console.error("Error al obtener información del usuario");
-        setErrorMessage("Error al obtener información del usuario");
+        router.replace("/factors");
       }
+    } else if (response.ok && !data.accessToken) {
+      router.replace("/factors");
     } else {
       console.error("Error en la autenticación:", data.message);
       setErrorMessage("Credenciales inválidas");

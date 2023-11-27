@@ -96,7 +96,7 @@ export default function perfilAdmin() {
             py={2}
             rounded={"md"}
             variant={"solid"}
-            colorScheme={"info"}
+            backgroundColor={"#e91e63"}
           >
             {clearance(user.clearance)}
           </Badge>
@@ -137,7 +137,7 @@ export default function perfilAdmin() {
             right={0}
             bottom={0}
             size="dm"
-            colorScheme="info"
+            backgroundColor={"#e91e63"}
             icon={
               <Icon color="white" as={MaterialIcons} name="edit" size="4" />
             }

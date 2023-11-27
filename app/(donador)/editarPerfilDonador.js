@@ -231,6 +231,7 @@ export default function editarPerfilDonador() {
                     variant="outline"
                     colorScheme="info"
                     width={"50%"}
+                    style={{borderColor: "#e91e63"}}
                     onPress={() => router.replace("/perfilDonador")}
                   >
                     Cancelar

@@ -238,18 +238,20 @@ const fetchTokenAndData = async () => {
               <Modal.Footer>
                 <Button.Group space={2}>
                   <Button 
-                  variant="outline" colorScheme="info" 
+                  variant="outline" 
+                  //style for button border color and font color
+                  style={{borderColor: "#e91e63"}}
                   width={"50%"} onPress={() => {
                   setTitulo("");
                   setDescripcion("");
                   setImagen("");
                   setModalVisible(false);
                 }}>
-                    Cancel
+                    <Text style={{color: "#e91e63"}}>Cancel</Text>
                   </Button>
                   <Button 
                   variant="solid"
-                  colorScheme="info"
+                  backgroundColor={"#e91e63"}
                   width={"50%"}
                   onPress={() => {
                   createNewArticle();

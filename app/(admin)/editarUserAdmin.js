@@ -21,7 +21,8 @@ import {
   Button,
   KeyboardAvoidingView,
   Select,
-  CheckIcon
+  CheckIcon,
+  Text
 } from "native-base";
 
 export default function editarPerfilDonador() {
@@ -254,13 +255,14 @@ export default function editarPerfilDonador() {
                   variant="outline"
                   colorScheme="info"
                   width={"50%"}
+                  style={{borderColor: "#e91e63"}}
                   onPress={() => router.replace("/usuariosAdmin")}
                 >
-                  Cancelar
+                <Text style={{color: "#e91e63"}}>Cancelar</Text>
                 </Button>
                 <Button
                   variant="solid"
-                  colorScheme="info"
+                  backgroundColor={"#e91e63"}
                   width={"50%"}
                   onPress={async () => {
                     await updateUserInformation();

@@ -19,6 +19,7 @@ import {
   FormControl,
   HStack,
   Button,
+  Text,
 } from "native-base";
 
 const clearance = (clearance) => {
@@ -208,15 +209,15 @@ export default function editarPerfilAdmin() {
             <HStack space={2} alignItems={"flex-end"} flex={1}>
               <Button
                 variant="outline"
-                colorScheme="info"
                 width={"50%"}
+                style={{borderColor: "#e91e63"}}
                 onPress={() => router.replace("/perfilAdmin")}
               >
-                Cancelar
+                <Text style={{color: "#e91e63"}}>Cancelar</Text>
               </Button>
               <Button
                 variant="solid"
-                colorScheme="info"
+                backgroundColor="#e91e63"
                 width={"50%"}
                 onPress={() => {
                   updateUserInformation();

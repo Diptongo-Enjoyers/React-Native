@@ -30,6 +30,64 @@ export default function noticiasAdmin() {
   ]);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const jsonData = {
+    _id: "655d0bda7b01846bfa86b435",
+    userId: "654332d016208420e292d050",
+    materials: [
+      {
+        food: "Frutas",
+        key: "1700595857544",
+        quantity: 1,
+        _id: "655d0bda7b01846bfa86b436",
+      },
+      {
+        food: "Frutas",
+        key: "1700595860794",
+        quantity: 2,
+        _id: "655d0bda7b01846bfa86b437",
+      },
+      {
+        food: "Carnes",
+        key: "1700595863619",
+        quantity: 3,
+        _id: "655d0bda7b01846bfa86b438",
+      },
+    ],
+    creationDate: "2023-11-21T19:58:18.463Z",
+    receptionDate: "2023-11-21T00:00:00.000Z",
+    status: "Pendiente",
+    __v: 0,
+  };
+
+  const fetchData = async () => {
+    const token = await AsyncStorage.getItem("userToken");
+    if (!token) {
+      console.error("Token no encontrado");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "https://api-three-kappa-45.vercel.app/usehttps://api-three-kappa-45.vercel.app/donations/materialrs/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      console.log(response);
+      const data = await response.json();
+      setDonations(data);
+      //   setFilteredData(data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
@@ -67,6 +125,8 @@ export default function noticiasAdmin() {
     </View>
   );
 
+  const jsonString = JSON.stringify(jsonData, null, 2);
+
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
@@ -92,8 +152,24 @@ export default function noticiasAdmin() {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>Hello</Text>
-              <Button onPress={toggleModal} backgroundColor={"#e91e63"}>Close</Button>
+              <View style={styles.containerInfo}>
+                {jsonData.materials.map((material, index) => (
+                  <View key={index} >
+                    <Text style={styles.modalText}>
+                      Alimento: {material.food}
+                    </Text>
+                    <Text style={styles.modalText}>
+                      Kilos: {material.quantity}
+                    </Text>
+                  </View>
+                ))}
+                <Text style={styles.modalText}>
+                  Estatus: {jsonData.status}
+                </Text>
+              </View>
+              <Button onPress={toggleModal} backgroundColor={"#e91e63"}>
+                Close
+              </Button>
             </View>
           </View>
         </Modal>
@@ -176,14 +252,23 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
+    marginBottom: 0,
+    textAlign: "center",
+    marginVertical: 8,
+  },
+    containerInfo: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 10,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    },
+
 });

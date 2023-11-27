@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   FlatList,
   StyleSheet,
   Modal,
   TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import { useRouter } from "expo-router";
 import BottomTabBarAdmin from "../../Components/BottomTabBarAdmin";
@@ -16,48 +17,15 @@ import {
   Button,
 } from "native-base";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function noticiasAdmin() {
   const selectedTab = "tablaDonacionesAlimentos";
   const router = useRouter();
-  const [donations, setDonations] = useState([
-    { id: "1", user: "User1", date: "2023-11-25", status: "Pendiente" },
-    { id: "2", user: "User2", date: "2023-11-24", status: "Entregado" },
-    { id: "3", user: "User3", date: "2023-11-25", status: "Pendiente" },
-    { id: "4", user: "User4", date: "2023-11-24", status: "Entregado" },
-    { id: "5", user: "User5", date: "2023-11-25", status: "Pendiente" },
-    { id: "6", user: "User6", date: "2023-11-24", status: "Entregado" }, // ... more donation objects
-  ]);
+  const [donations, setDonations] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-
-  const jsonData = {
-    _id: "655d0bda7b01846bfa86b435",
-    userId: "654332d016208420e292d050",
-    materials: [
-      {
-        food: "Frutas",
-        key: "1700595857544",
-        quantity: 1,
-        _id: "655d0bda7b01846bfa86b436",
-      },
-      {
-        food: "Frutas",
-        key: "1700595860794",
-        quantity: 2,
-        _id: "655d0bda7b01846bfa86b437",
-      },
-      {
-        food: "Carnes",
-        key: "1700595863619",
-        quantity: 3,
-        _id: "655d0bda7b01846bfa86b438",
-      },
-    ],
-    creationDate: "2023-11-21T19:58:18.463Z",
-    receptionDate: "2023-11-21T00:00:00.000Z",
-    status: "Pendiente",
-    __v: 0,
-  };
+  const [selectedDonation, setSelectedDonation] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     const token = await AsyncStorage.getItem("userToken");
@@ -68,7 +36,7 @@ export default function noticiasAdmin() {
 
     try {
       const response = await fetch(
-        "https://api-three-kappa-45.vercel.app/usehttps://api-three-kappa-45.vercel.app/donations/materialrs/",
+        "https://api-three-kappa-45.vercel.app/donations/material",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -79,34 +47,131 @@ export default function noticiasAdmin() {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      console.log(response);
-      const data = await response.json();
-      setDonations(data);
-      //   setFilteredData(data);
+      const donationsData = await response.json();
+
+      const donationsWithUserNames = await Promise.all(donationsData.map(async (donation) => {
+        const userResponse = await fetch(`https://api-three-kappa-45.vercel.app/users/${donation.userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!userResponse.ok) {
+          console.error(`Error fetching user data for user ID: ${donation.userId}`);
+          return {
+            ...donation,
+            userName: 'Unknown', // O manejar de otra manera
+          };
+        }
+
+        const userData = await userResponse.json();
+        return {
+          id: donation._id,
+          user: userData.name, // Asumiendo que el nombre está en la propiedad 'name'
+          date: new Date(donation.creationDate).toLocaleDateString(),
+          status: donation.status
+        };
+      }));
+
+      setDonations(donationsWithUserNames);
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.error("Error fetching donation data:", error);
     }
   };
 
-  const toggleModal = () => {
+  const fetchDonationDetails = async (donationId) => {
+    const token = await AsyncStorage.getItem("userToken");
+    if (!token) {
+      console.error("Token no encontrado");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://api-three-kappa-45.vercel.app/donations/material/${donationId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const donationDetails = await response.json();
+      setSelectedDonation(donationDetails);
+    } catch (error) {
+      console.error("Error fetching donation details:", error);
+    }
+  };
+
+  const clearModal = () => {
+    setSelectedDonation(null);
+    setModalVisible(false);
+  };
+
+  const toggleModal = (donationId) => {
+    if (!modalVisible && donationId) {
+      fetchDonationDetails(donationId);
+    }
     setModalVisible(!modalVisible);
   };
 
-  const approveDonation = (donationId) => {
-    // Create a new array with the updated item
-    const updatedDonations = donations.map((donation) => {
-      if (donation.id === donationId) {
-        return { ...donation, status: "Entregado" }; // Update the status of the matching donation
+  const updateDonationStatus = async (donationId, newStatus) => {
+    setLoading(true);
+    const token = await AsyncStorage.getItem("userToken");
+    if (!token) {
+      console.error("Token no encontrado");
+      return;
+    }
+  
+    try {
+      const updateData = {
+        status: newStatus,
+      };
+  
+      // Si la donación se aprueba, establece la fecha de recepción a la fecha actual
+      if (newStatus === "Entregado") {
+        updateData.receptionDate = new Date().toISOString();
+      } else if (newStatus === "Pendiente") {
+        // Establece la fecha de recepción a una fecha lejana
+        updateData.receptionDate = "2099-12-31T00:00:00.000Z";
       }
-      return donation; // Return the item unchanged if it does not match
-    });
+  
+      const response = await fetch(`https://api-three-kappa-45.vercel.app/donations/material/${donationId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updateData),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      // Actualiza la lista de donaciones tras el cambio de estado
+      fetchData();
+    } catch (error) {
+      console.error("Error updating donation status:", error);
+    }finally {
+      setLoading(false);
+    }
+  };
 
-    setDonations(updatedDonations); // Set the new donations array as the current state
+  const approveDonation = (donationId) => {
+    updateDonationStatus(donationId, "Entregado");
+  };
+
+  const revertDonation = (donationId) => {
+    updateDonationStatus(donationId, "Pendiente");
   };
 
   const renderItem = ({ item }) => (
     <View style={styles.itemRow}>
-      <TouchableOpacity style={styles.infoButton} onPress={toggleModal}>
+      <TouchableOpacity style={styles.infoButton} onPress={() => toggleModal(item.id)}>
         <MaterialCommunityIcons name="information" size={24} color="black" />
       </TouchableOpacity>
       <Text style={styles.itemText}>{item.user}</Text>
@@ -120,12 +185,20 @@ export default function noticiasAdmin() {
           <Text style={styles.itemText}>Aprobar</Text>
         </Button>
       ) : (
-        <Text style={styles.itemText}>{item.status}</Text>
+        <Button
+          variant="outline"
+          onPress={() => revertDonation(item.id)}
+        >
+          <Text style={styles.itemText}>Revertir a Pendiente</Text>
+        </Button>
       )}
     </View>
   );
 
-  const jsonString = JSON.stringify(jsonData, null, 2);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
 
   return (
     <NativeBaseProvider>
@@ -134,11 +207,6 @@ export default function noticiasAdmin() {
           Donaciones
         </Heading>
         <Divider my={2} />
-        {/* <View style={styles.heading}>
-          <Text style={styles.itemText}>Usuario</Text>
-          <Text style={styles.itemText}>Fecha</Text>
-          <Text style={styles.itemText}>Estado</Text>
-        </View> */}
         <FlatList
           data={donations}
           renderItem={renderItem}
@@ -148,40 +216,41 @@ export default function noticiasAdmin() {
           animationType="slide"
           transparent={true}
           visible={modalVisible}
-          onRequestClose={toggleModal}
+          onRequestClose={clearModal}
         >
-          <View style={styles.centeredView}>
+          <View style={styles.modalOuterView}>
             <View style={styles.modalView}>
-              <View style={styles.containerInfo}>
-                {jsonData.materials.map((material, index) => (
-                  <View key={index} >
-                    <Text style={styles.modalText}>
-                      Alimento: {material.food}
-                    </Text>
-                    <Text style={styles.modalText}>
-                      Kilos: {material.quantity}
-                    </Text>
-                  </View>
-                ))}
-                <Text style={styles.modalText}>
-                  Estatus: {jsonData.status}
-                </Text>
-              </View>
-              <Button onPress={toggleModal} backgroundColor={"#e91e63"}>
-                Close
-              </Button>
+              {selectedDonation && (
+                <>
+                  <Text style={styles.modalTitle}>Detalles de la Donación</Text>
+                  {selectedDonation.materials.map((material, index) => (
+                    <View key={index} style={styles.modalContent}>
+                      <Text style={styles.modalText}>Alimento: {material.food}</Text>
+                      <Text style={styles.modalText}>Cantidad: {material.quantity}</Text>
+                    </View>
+                  ))}
+                  <Button onPress={clearModal} style={styles.closeButton}>
+                    Cerrar
+                  </Button>
+                </>
+              )}
             </View>
           </View>
         </Modal>
         <BottomTabBarAdmin selectedTab={selectedTab} />
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="x-large" color="#FF0000" />
+          </View>
+        )}
       </View>
     </NativeBaseProvider>
-  );
+  );  
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Asegura que el contenedor ocupe toda la pantalla
+    flex: 1,
     justifyContent: "space-between",
     paddingBottom: 30,
   },
@@ -210,15 +279,9 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 8,
     marginHorizontal: 16,
-    height: 75, // Fixed height for all rows
-
-    // Add more styles for the row as needed
-  },
-  itemText: {
-    // Style for the text components
+    height: 75, 
   },
   button: {
-    // Style for the TouchableOpacity
     borderRadius: 20,
     padding: 10,
     elevation: 2,
@@ -234,7 +297,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   infoButton: {
-    //no background color
     backgroundColor: "transparent",
   },
   centeredView: {
@@ -242,6 +304,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
+  },
+  modalOuterView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
   },
   modalView: {
     margin: 20,
@@ -257,18 +325,33 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    width: '80%', 
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+  modalContent: {
+    alignItems: 'flex-start',
+    width: '100%', 
+    marginBottom: 10,
   },
   modalText: {
-    marginBottom: 0,
-    textAlign: "center",
-    marginVertical: 8,
+    fontSize: 16,
+    marginBottom: 5,
   },
-    containerInfo: {
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 10,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    },
-
+  closeButton: {
+    marginTop: 20,
+  },
+  loadingContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
 });

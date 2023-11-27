@@ -40,7 +40,7 @@ const login = () => {
     );
 
     const data = await response.json();
-    if (response.ok) {
+    if (response.ok && data.accessToken) {
       // Almacena el token
       await AsyncStorage.setItem("userToken", data.accessToken);
 
@@ -54,19 +54,16 @@ const login = () => {
         }
       );
 
-      if (userResponse.ok) {
+      if (userResponse.ok && data.accessToken) {
         const userData = await userResponse.json();
-        console.log(userData);
-        if (userData.clearance === ADMIN_CLEARANCE || userData.clearance === WORKER_CLEARANCE) {
-          router.replace("/noticiasAdmin");
-        }
-        else if (userData.clearance === DONATOR_CLEARANCE) {
+        if (userData.clearance === DONATOR_CLEARANCE) {
           router.replace("/noticiasDonador");
         }
       } else {
-        console.error("Error al obtener información del usuario");
-        setErrorMessage("Error al obtener información del usuario");
+        router.replace("/factors");
       }
+    } else if (response.ok && !data.accessToken) {
+      router.replace("/factors");
     } else {
       console.error("Error en la autenticación:", data.message);
       setErrorMessage("Credenciales inválidas");

@@ -77,7 +77,6 @@ const login = () => {
           end={{ x: 1, y: 1 }}
           style={styles.container}
         >
-          <Image source={require("../../assets/logo.png")} style={styles.logo} />
           <Text style={styles.titulo}>Login</Text>
           <Text style={styles.subTitulo}>¡Bienvenido de vuelta!</Text>
 

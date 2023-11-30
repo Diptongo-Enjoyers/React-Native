@@ -7,10 +7,7 @@ export default function Page() {
       <View style={styles.main}>
         <Text style={styles.title}>Bienvenido</Text>
         <Link style={styles.subtitle} href="/login">
-          Login
-        </Link>
-        <Link style={styles.subtitle} href="/noticiasDonador">
-          Donador
+          Click aqui para iniciar!
         </Link>
       </View>
     </View>

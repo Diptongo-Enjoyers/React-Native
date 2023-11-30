@@ -24,7 +24,7 @@ const Register = () => {
 
   const registerUser = async () => {
     // Mover la función al interior del componente
-    const clearanceValue = selectedOption === "beneficiario" ? 1 : 2;
+    const clearanceValue = 2;
 
     const response = await fetch(
       "https://api-three-kappa-45.vercel.app/auth/register",
@@ -46,12 +46,13 @@ const Register = () => {
     const data = await response.json();
 
     if (response.ok) {
-      router.replace("../noticiasDonador");
+      router.replace("/noticiasDonador");
       console.log("Usuario registrado con éxito:", data);
     } else {
       console.error("Error registrando usuario:", data);
     }
   };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -63,7 +64,6 @@ const Register = () => {
         end={{ x: 1, y: 1 }}
         style={styles.container}
       >
-        <Image source={require("../../assets/logo.png")} style={styles.logo} />
         <Text style={styles.titulo}>Registro</Text>
 
         <TextInput

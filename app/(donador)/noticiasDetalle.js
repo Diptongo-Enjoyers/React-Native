@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons'; // Choose appropriate ico
 
 
 const SingleHouseScreen = () => {
-  const { titulo, descripcion, imagen, fecha } = useLocalSearchParams();
+  const { titulo, descripcion, imagen, fecha, edad } = useLocalSearchParams();
   const { back } = useRouter();
 
   return (
@@ -19,9 +19,9 @@ const SingleHouseScreen = () => {
     </View>
       <ScrollView>
       <Image source={{ uri: imagen }} style={styles.imagen} />
-      <Text style={styles.fecha} >{fecha}</Text>
       <Text style={styles.titulo}>{titulo}</Text>
-      <Text style={styles.descripcion}>{descripcion}</Text>
+      <Text style={styles.descripcion}>{edad} años</Text>
+      <Text style={styles.descripcion}>{descripcion} kilos</Text>
       </ScrollView>
     </View>
   );

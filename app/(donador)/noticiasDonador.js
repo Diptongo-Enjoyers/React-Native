@@ -25,6 +25,7 @@ export default function noticiasAdmin() {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [imagen, setImagen] = useState("");
+  const [edad, setAge] = useState("");
   const [userToken, setUserToken] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
@@ -91,6 +92,7 @@ const fetchTokenAndData = async () => {
             title: titulo,
             body: descripcion,
             image: imagen,
+            age: edad,
             date: new Date(),
           }),
         }
@@ -164,6 +166,7 @@ const fetchTokenAndData = async () => {
               autor: item.author,
               descripcion: item.body,
               imagen: item.image,
+              edad: item.age,
               fecha: formatDate(item.date),
             },
           }}
@@ -205,23 +208,31 @@ const fetchTokenAndData = async () => {
                   setTitulo("");
                   setDescripcion("");
                   setImagen("");
+                  setAge("");
                   setModalVisible(false);
                 }}
               />
               <Modal.Header>Create News</Modal.Header>
               <Modal.Body>
               <FormControl mb="5" isRequired>
-                  <FormControl.Label style={{ fontSize: 40 }}>Título</FormControl.Label>
+                  <FormControl.Label style={{ fontSize: 40 }}>Nombre</FormControl.Label>
                   <Input 
                     value={titulo}
                     onChangeText={setTitulo}
                     />
                 </FormControl>
                 <FormControl mb="5" isRequired>
-                  <FormControl.Label>Descripción</FormControl.Label>
+                  <FormControl.Label>Peso</FormControl.Label>
                   <Input 
                   value={descripcion}
                   onChangeText={(text) => setDescripcion(text)}
+                  />
+                </FormControl>
+                <FormControl mb="5" isRequired>
+                  <FormControl.Label>Edad</FormControl.Label>
+                  <Input 
+                  value={edad}
+                  onChangeText={(text) => setAge(text)}
                   />
                 </FormControl>
                 <FormControl mb="5" isRequired>
@@ -242,6 +253,7 @@ const fetchTokenAndData = async () => {
                   setTitulo("");
                   setDescripcion("");
                   setImagen("");
+                  setAge("");
                   setModalVisible(false);
                 }}>
                     <Text style={{color: "#e91e63"}}>Cancel</Text>

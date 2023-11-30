@@ -7,7 +7,7 @@ export default function Page() {
       <View style={styles.main}>
         <Text style={styles.title}>Bienvenido</Text>
         <Link style={styles.subtitle} href="/login">
-          Click aqui para comenzar
+          Login
         </Link>
         <Link style={styles.subtitle} href="/noticiasAdmin">
           Admin

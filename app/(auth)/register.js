@@ -10,15 +10,17 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link, router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 const Register = () => {
   // Cambiado a mayúscula para seguir las convenciones de React
   const [alias, setAlias] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
   const router = useRouter();
+  selectedOption === "Donador";
 
   const registerUser = async () => {
     // Mover la función al interior del componente
@@ -34,6 +36,7 @@ const Register = () => {
         body: JSON.stringify({
           email: email,
           password: password,
+          passwordConfirm: passwordConfirm,
           username: alias,
           clearance: clearanceValue,
         }),
@@ -43,7 +46,7 @@ const Register = () => {
     const data = await response.json();
 
     if (response.ok) {
-      router.replace("../noticiasBenef");
+      router.replace("../noticiasDonador");
       console.log("Usuario registrado con éxito:", data);
     } else {
       console.error("Error registrando usuario:", data);
@@ -63,42 +66,6 @@ const Register = () => {
         <Image source={require("../../assets/logo.png")} style={styles.logo} />
         <Text style={styles.titulo}>Registro</Text>
 
-        <View style={styles.optionsContainer}>
-          <TouchableOpacity
-            style={[
-              styles.optionButton,
-              selectedOption === "beneficiario" && styles.selectedButton,
-            ]}
-            onPress={() => setSelectedOption("beneficiario")}
-          >
-            <Text
-              style={[
-                styles.optionButtonText,
-                selectedOption === "beneficiario" && styles.selectedButtonText,
-              ]}
-            >
-              Beneficiario
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.optionButton,
-              selectedOption === "Donador" && styles.selectedButton,
-            ]}
-            onPress={() => setSelectedOption("Donador")}
-          >
-            <Text
-              style={[
-                styles.optionButtonText,
-                selectedOption === "Donador" && styles.selectedButtonText,
-              ]}
-            >
-              Donador
-            </Text>
-          </TouchableOpacity>
-        </View>
-
         <TextInput
           style={styles.input}
           placeholder="Alias"
@@ -117,6 +84,13 @@ const Register = () => {
           placeholder="Contraseña"
           onChangeText={setPassword}
           value={password}
+        />
+        <TextInput
+          secureTextEntry={true}
+          style={styles.input}
+          placeholder="Confirmar contraseña"
+          onChangeText={setPasswordConfirm}
+          value={passwordConfirm}
         />
 
         <TouchableOpacity style={styles.buttonContainer} onPress={registerUser}>

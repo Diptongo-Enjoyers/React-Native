@@ -14,8 +14,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ADMIN_CLEARANCE = 0;
-const WORKER_CLEARANCE = 1;
 const DONATOR_CLEARANCE = 2;
 
 const login = () => {
